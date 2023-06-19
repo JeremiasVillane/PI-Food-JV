@@ -5,8 +5,10 @@ module.exports = async (req, res) => {
 
   try {
     // si falta alguno de los datos principales, arroja un error
-    if (!title || !summary ) {
-      return res.status(400).send("Missing data: It requires a valid name and a summary");
+    if (!title || !summary) {
+      return res
+        .status(400)
+        .json({ error: "It requires a name and a summary" });
     }
 
     const newRecipe = await postRecipe(

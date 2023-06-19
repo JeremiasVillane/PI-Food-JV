@@ -5,8 +5,8 @@ module.exports = async (req, res) => {
 
   // Si no se ingresó una ID se respnde con un error
   if (!idRecipe)
-    return res.status(400).json({ 
-      error: "No ID has been entered" 
+    return res.status(400).json({
+      error: "No ID has been entered",
     });
 
   try {
