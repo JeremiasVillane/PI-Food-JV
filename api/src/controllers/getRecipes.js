@@ -2,6 +2,7 @@ require("dotenv").config();
 const axios = require("axios");
 const { Op } = require("sequelize");
 const { Recipe, Diet } = require("../db.js");
+const recipeMapper = require("../utils/recipeMapper.js");
 const { API_KEY } = process.env;
 // const URL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
 const URL = `http://localhost:8080//recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
@@ -37,21 +38,29 @@ module.exports = async (name) => {
     return { error: `No matches for ${name}` };
   }
 
-  // Si es una recipe de la BDD, tendrá una key "steps"
-  // Si es de la API los "steps" estarán dentro de "analyzedInstructions"
-  const output = recipes.map((recipe) => ({
-    id: recipe.id,
-    title: recipe.title,
-    image: recipe.image,
-    summary: recipe.summary,
-    healthScore: recipe.healthScore,
-    steps: recipe.analyzedInstructions
-      ? recipe.analyzedInstructions[0]?.steps.reduce((obj, s) => {
-          obj[s.number] = s.step;
-          return obj;
-        }, {})
-      : recipe.steps,
-    diets: recipe.diets.map((diet) => (diet.name ? diet.name : diet)),
-  }));
-  return output;
+  // Mapeo las recetas y las retorno
+  return recipeMapper(recipes);  
 };
+
+
+
+
+// Si es una recipe de la BDD, tendrá una key "steps" 
+// y "diets" será un array de objetos
+// Si es de la API los "steps" estarán dentro de "analyzedInstructions" 
+// y "diets" será un array de strings
+// const output = recipes.map((recipe) => ({
+//   id: recipe.id,
+//   title: recipe.title,
+//   image: recipe.image,
+//   summary: recipe.summary,
+//   healthScore: recipe.healthScore,
+//   steps: recipe.analyzedInstructions
+//     ? recipe.analyzedInstructions[0]?.steps.reduce((obj, s) => {
+//         obj[s.number] = s.step;
+//         return obj;
+//       }, {})
+//     : recipe.steps,
+//   diets: recipe.diets.map((diet) => (diet.name ? diet.name : diet)),
+// }));
+//return output;
