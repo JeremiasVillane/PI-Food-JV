@@ -2,7 +2,7 @@ require("dotenv").config();
 const axios = require("axios");
 const { Op } = require("sequelize");
 const { Recipe, Diet } = require("../db.js");
-const recipeMapper = require("../utils/recipeMapper.js");
+const recipeMapper = require("../helpers/recipeMapper.js");
 const { API_KEY } = process.env;
 // const URL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
 const URL = `http://localhost:8080/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;

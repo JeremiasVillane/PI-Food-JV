@@ -18,5 +18,7 @@ module.exports = (recipes) => {
       : recipe.steps,
     diets: recipe.diets.map((diet) => (diet.name ? diet.name : diet)),
   }));
+  // Si el resultado son más de una recipe retorno el array completo
+  // Si es una sola recipe, retorno solo la recipe
   return output.length > 1 ? output : output[0];
 };

@@ -4,10 +4,10 @@ module.exports = async (req, res) => {
   const { idRecipe } = req.params;
 
   // Si no se ingresó una ID se respnde con un error
-  if (!idRecipe)
-    return res.status(400).json({
-      error: "No ID has been entered",
-    });
+  // if (!idRecipe)
+  //   return res.status(400).json({
+  //     error: "No ID has been entered",
+  //   });
 
   try {
     const recipeById = await getRecipeById(idRecipe);

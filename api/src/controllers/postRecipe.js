@@ -1,15 +1,10 @@
 const { Recipe, Diet } = require("../db");
-const recipeMapper = require("../utils/recipeMapper");
+const recipeMapper = require("../helpers/recipeMapper");
 
 module.exports = async (title, image, summary, healthScore, steps, diets) => {
   const recipe = await Recipe.create({
     title,
-    // Verifico que se trate de una url de imagen válida:
-    // - http, https, y www son opcionales
-    // - las extensiones pueden estar tanto en min como may
-    [/^(https?:\/\/)?(?:www\.)?\S+\.(?:jpg|jpeg|png|gif)$/i.test(image)
-      ? "image"
-      : null]: image,
+    image,
     summary,
     healthScore,
     steps,
@@ -38,15 +33,13 @@ module.exports = async (title, image, summary, healthScore, steps, diets) => {
       },
     ],
   });
-  
+
   // Mapeo la receta y la retorno
   return recipeMapper([recipeWithDiets]);
 };
 
-
-
 // Obtengo las diets asociadas con las recipes:
-// Con getDiets(), Sequelize realiza una consulta a la BDD y recupera 
+// Con getDiets(), Sequelize realiza una consulta a la BDD y recupera
 // los registros relacionados en la tabla de asociación entre Recipe y Diet
 // const recipeDiets = await recipe.getDiets();
 

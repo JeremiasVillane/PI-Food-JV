@@ -1,7 +1,7 @@
 require("dotenv").config();
 const axios = require("axios");
 const { Recipe, Diet } = require("../db.js");
-const recipeMapper = require("../utils/recipeMapper.js");
+const recipeMapper = require("../helpers/recipeMapper.js");
 const { API_KEY } = process.env;
 // const URL = "https://api.spoonacular.com/recipes/";
 const URL = "http://localhost:8080/recipes/";
@@ -29,7 +29,7 @@ module.exports = async (idRecipe) => {
 
   // Si foundRecipe está vacío no hubo coincidencias
   if (!foundRecipe) {
-    return { error: `No matches for ${idRecipe}` };
+    return { error: `Nothing found` };
   }
 
   // Mapeo la receta y la retorno
