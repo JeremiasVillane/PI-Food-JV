@@ -5,7 +5,7 @@ const { Recipe, Diet } = require("../db.js");
 const recipeMapper = require("../utils/recipeMapper.js");
 const { API_KEY } = process.env;
 // const URL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
-const URL = `http://localhost:8080//recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
+const URL = `http://localhost:8080/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
 
 module.exports = async (name) => {
   // Resultados de la BDD:
