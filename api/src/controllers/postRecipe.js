@@ -35,7 +35,7 @@ module.exports = async (title, image, summary, healthScore, steps, diets) => {
   });
 
   // Mapeo la receta y la retorno
-  return recipeMapper([recipeWithDiets]);
+  return recipeMapper([recipeWithDiets], "full");
 };
 
 // Obtengo las diets asociadas con las recipes:

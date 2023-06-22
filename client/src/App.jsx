@@ -1,12 +1,6 @@
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import "./App.css";
-import Landing from "./pages/Landing";
-import Home from "./pages/Home";
-import Detail from "./pages/Detail";
-import Form from "./pages/Form";
-import About from "./pages/About";
-import NotFound from "./pages/NotFound";
+import { NavBar } from "./components";
+import { About, Detail, Form, Home, Landing, NotFound } from "./views";
 
 const App = () => {
   const location = useLocation();

@@ -3,9 +3,8 @@ const axios = require("axios");
 const { Op } = require("sequelize");
 const { Recipe, Diet } = require("../db.js");
 const recipeMapper = require("../helpers/recipeMapper.js");
-const { API_KEY } = process.env;
-// const URL = `https://api.spoonacular.com/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
-const URL = `http://localhost:8080/recipes/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
+const { API_KEY, API_URL } = process.env;
+const URL = `${API_URL}/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
 
 module.exports = async (name) => {
   // Resultados de la BDD:
@@ -31,7 +30,7 @@ module.exports = async (name) => {
     : apiResponse;
 
   // Combino los resultados:
-  let recipes = [...apiResults, ...dbResults];
+  let recipes = [...dbResults, ...apiResults];
 
   // Si recipes está vacío no hubo coincidencias
   if (!recipes.length) {
@@ -39,7 +38,7 @@ module.exports = async (name) => {
   }
 
   // Mapeo las recetas y las retorno
-  return recipeMapper(recipes);  
+  return recipeMapper(recipes, "brief");  
 };
 
 

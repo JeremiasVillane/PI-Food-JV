@@ -2,9 +2,7 @@ require("dotenv").config();
 const axios = require("axios");
 const { Recipe, Diet } = require("../db.js");
 const recipeMapper = require("../helpers/recipeMapper.js");
-const { API_KEY } = process.env;
-// const URL = "https://api.spoonacular.com/recipes/";
-const URL = "http://localhost:8080/recipes/";
+const { API_KEY, API_URL } = process.env;
 
 module.exports = async (idRecipe) => {
   let foundRecipe;
@@ -12,7 +10,7 @@ module.exports = async (idRecipe) => {
   // Si idRecipe es un número, se busca en la API
   if (isFinite(idRecipe)) {
     const response = await axios(
-      `${URL}${idRecipe}/information?apiKey=${API_KEY}`
+      `${API_URL}/${idRecipe}/information?apiKey=${API_KEY}`
     );
     foundRecipe = response.data;
   } else {
@@ -33,16 +31,14 @@ module.exports = async (idRecipe) => {
   }
 
   // Mapeo la receta y la retorno
-  return recipeMapper([foundRecipe]);
+  return recipeMapper([foundRecipe], "full");
 };
-
-
 
 // const { id, title, image, summary, healthScore, diets } = foundRecipe;
 
-// // Si es una recipe de la BDD, tendrá una key "steps" 
+// // Si es una recipe de la BDD, tendrá una key "steps"
 // // y "diets" será un array de objetos
-// // Si es de la API los "steps" estarán dentro de "analyzedInstructions" 
+// // Si es de la API los "steps" estarán dentro de "analyzedInstructions"
 // // y "diets" será un array de strings
 // return {
 //   id,

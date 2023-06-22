@@ -1,9 +1,27 @@
-import React from 'react'
+import { useSelector } from "react-redux";
+import Card from "./Card";
 
 const Cards = () => {
+  const recipes = useSelector((state) => state.recipes);
+  
   return (
-    <div>Cards</div>
-  )
-}
+    <div>
+      {recipes.map((recipe) => {
+        const { id, title, image, diets, healthScore } = recipe;
 
-export default Cards
+        return (
+          <Card
+            id={id}
+            key={id}
+            title={title}
+            image={image}
+            diets={diets}
+            healthScore={healthScore}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+export default Cards;
