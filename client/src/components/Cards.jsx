@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllRecipes } from "../redux/actions";
+import { getAllRecipes, getDiets } from "../redux/actions";
 import Card from "./Card";
 
 const Cards = ({ handleDiet }) => {
@@ -8,6 +8,7 @@ const Cards = ({ handleDiet }) => {
 
   useEffect(() => {
     dispatch(getAllRecipes());
+    dispatch(getDiets());
   }, [dispatch]);
   
   const recipes = useSelector((state) => state.recipes);

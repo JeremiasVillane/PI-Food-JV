@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
           results = data;
         }
       })
-      .catch(() => {
+      .catch((error) => {
         return { error: "No results" };
       });
 

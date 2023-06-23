@@ -1,8 +1,10 @@
 import axios from "axios";
 import {
+  FILTERS,
   FILTER_BY_DIETS,
   FILTER_BY_SOURCE,
   GET_ALL_RECIPES,
+  GET_DIETS,
   GET_RECIPE_DETAIL,
   RESET_DETAIL,
 } from "./action-types";
@@ -31,10 +33,32 @@ export const getRecipeDetail = (id) => {
   };
 };
 
+export const resetDetail = () => {
+  return {
+    type: RESET_DETAIL,
+  };
+};
+
+export const filtering = (filters) => {
+  return async (dispatch) => {
+    try {
+      const { search, source, diets } = filters;
+      const apiData = await axios(
+        `/recipes/?name=${search}&source=${source}&diets=${diets}`
+      );
+      const recipes = apiData.data;
+      if (recipes.error) return window.alert(recipes.error);
+      dispatch({ type: FILTERS, payload: recipes });
+    } catch (error) {
+      window.alert(error.message);
+    }
+  };
+};
+
 export const filterByDiets = (diet) => {
   return async (dispatch) => {
     try {
-      const apiData = await axios(`/recipes?diet=${diet}`);
+      const apiData = await axios(`/recipes?diets=${diet}`);
       const filteredRecipes = apiData.data;
       dispatch({ type: FILTER_BY_DIETS, payload: filteredRecipes });
     } catch (error) {
@@ -43,20 +67,33 @@ export const filterByDiets = (diet) => {
   };
 };
 
-export const filterBySource = (source) => {
+export const getDiets = () => {
   return async (dispatch) => {
     try {
-      const api_Data = await axios(`/recipes?source${source}`);
-      const filteredRecipes = api_Data.data;
-      dispatch({ type: FILTER_BY_SOURCE, payload: filteredRecipes });
+      const apiData = await axios("/diets");
+      const diets = apiData.data;
+      dispatch({ type: GET_DIETS, payload: diets });
     } catch (error) {
       window.alert(error.message);
     }
   };
 };
 
-export const resetDetail = () => {
-  return {
-    type: RESET_DETAIL,
-  };
-};
+
+
+
+
+
+
+
+// export const filterBySource = (source) => {
+//   return async (dispatch) => {
+//     try {
+//       const api_Data = await axios(`/recipes?source${source}`);
+//       const filteredRecipes = api_Data.data;
+//       dispatch({ type: FILTER_BY_SOURCE, payload: filteredRecipes });
+//     } catch (error) {
+//       window.alert(error.message);
+//     }
+//   };
+// };

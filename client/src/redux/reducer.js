@@ -1,10 +1,10 @@
-import { FILTER_BY_DIETS, FILTER_BY_SOURCE, GET_ALL_RECIPES, GET_RECIPE_DETAIL, RESET_DETAIL } from "./action-types";
+import { FILTERS, FILTER_BY_DIETS, GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, RESET_DETAIL } from "./action-types";
 
 const initialState = {
   recipes: [],
-  recipesBackup: [],
   detail: [],
   filter: [],
+  diets: [],
 };
 
 const reducer = (state = initialState, { type, payload }) => {
@@ -15,15 +15,18 @@ const reducer = (state = initialState, { type, payload }) => {
     case GET_RECIPE_DETAIL:
       return {...state,
       detail: payload};
-      case FILTER_BY_DIETS:
-        return {...state,
-        filter: payload};
-      case FILTER_BY_SOURCE:
-        return {...state,
-        filter: payload};
-      case RESET_DETAIL:
-        return {...state,
-        detail: []};
+    case RESET_DETAIL:
+      return {...state,
+      detail: []};
+    case FILTERS:
+      return {...state,
+      filter: payload};
+    case FILTER_BY_DIETS:
+      return {...state,
+      filter: payload};
+    case GET_DIETS:
+      return {...state,
+      diets: payload};  
     default:
       return { ...state };
   }
