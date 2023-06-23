@@ -4,6 +4,7 @@ const getDiets = require("./getDiets");
 const postRecipe = require("./postRecipe");
 const deleteRecipe = require("./deleteRecipe");
 const filterByDiets = require("./filterByDiets");
+const filterBySource = require("./filterBySource");
 
 module.exports = {
   getRecipeById,
@@ -12,4 +13,5 @@ module.exports = {
   deleteRecipe,
   getDiets,
   filterByDiets,
+  filterBySource
 };

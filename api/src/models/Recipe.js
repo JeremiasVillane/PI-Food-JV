@@ -35,9 +35,9 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: {},
       },
-      local: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
+      source: {
+        type: DataTypes.STRING,
+        defaultValue: "db",
       },
     },
     { timestamps: false }

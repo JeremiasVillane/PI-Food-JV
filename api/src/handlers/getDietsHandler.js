@@ -1,13 +1,8 @@
-const { getDiets, filterByDiets } = require("../controllers");
+const { getDiets } = require("../controllers");
 
 module.exports = async (req, res) => {
-  const { name } = req.query;
-
   try {
-    const allDiets =
-      name 
-        ? await filterByDiets(name) 
-        : await getDiets();
+    const allDiets = await getDiets();
 
     return res.status(200).json(allDiets);
   } catch (error) {

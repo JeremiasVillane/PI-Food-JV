@@ -35,7 +35,7 @@ module.exports = (recipes, mode) => {
       image: recipe.image,
       healthScore: recipe.healthScore,
       diets: dietsFormatter(recipe.diets),
-      local: recipe.local ? recipe.local : false, // API o BDD
+      source: recipe.source === "db" ? recipe.source : "api", // API o BDD
     };
 
     if (includeSummary) {
@@ -51,5 +51,5 @@ module.exports = (recipes, mode) => {
 
   // Si el resultado son más de una receta, retorno el arreglo completo
   // Si es una sola receta, retorno solo la receta
-  return output.length > 1 ? output : output[0];
+  return output //.length > 1 ? output : output[0];
 };
