@@ -1,10 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { resetDetail } from "../redux/actions";
 import { Cards } from "../components";
 
-const Home = ({handleDiet}) => {
+const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const Home = ({handleDiet}) => {
   return (
     <>
       <h1>Home</h1>
-      <Cards handleDiet={handleDiet} />
+      <Cards />
     </>
   );
 };

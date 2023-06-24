@@ -17,7 +17,8 @@ module.exports = (sequelize) => {
       },
       image: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: "https://i.postimg.cc/sfQJ0WQD/default.jpg",
         validate: { isUrl: true },
       },
       summary: {
@@ -26,13 +27,13 @@ module.exports = (sequelize) => {
       },
       healthScore: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         defaultValue: 0,
         validate: { min: 0, max: 100 },
       },
       steps: {
         type: DataTypes.JSON,
-        allowNull: false,
+        allowNull: true,
         defaultValue: {},
       },
       source: {

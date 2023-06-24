@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllRecipes, getDiets } from "../redux/actions";
 import Card from "./Card";
 
-const Cards = ({ handleDiet }) => {
+const Cards = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Cards = ({ handleDiet }) => {
                 image={image}
                 diets={diets}
                 healthScore={healthScore}
-                handleDiet={handleDiet}
+                // handleDiet={handleDiet}
               />
             );
           })
@@ -43,7 +43,7 @@ const Cards = ({ handleDiet }) => {
                 image={image}
                 diets={diets}
                 healthScore={healthScore}
-                handleDiet={handleDiet}
+                // handleDiet={handleDiet}
               />
             );
           })}

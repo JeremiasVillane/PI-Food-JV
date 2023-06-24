@@ -3,11 +3,11 @@ module.exports = summaryCleaner = (summary) => {
     return null;
   }
 
-  // Modifico el summary reemplazando los enlaces
-  // a Spoonacular por rutas de la app
+  // Modifico el summary reemplazando
+  // los enlaces a Spoonacular
   const modifiedText = summary.replace(
-    /<a href="https:\/\/spoonacular\.com\/recipes\/.+?-(\d+)">(.+?)<\/a>/g,
-    '<a href="/detail/$1">$2</a>'
+    /<a href="https:\/\/spoonacular\.com\/recipes\/.+?-\d+">(.+?)<\/a>/g,
+    '<strong>$1</strong>'
   );
 
   return modifiedText;

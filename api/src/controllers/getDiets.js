@@ -15,8 +15,10 @@ module.exports = async () => {
   results.forEach((recipe) => {
     const { diets } = recipe;
 
+    // Para listar las dietas, y luego renderizarlas en el front
+    // incluyo vegetarian de esta forma, pero a la hora de
+    // renderizar las recipes la incluyo dinámicamente
     dietsList = [...dietsList, ...diets, "vegetarian"];
-    //! arreglar "vegetarian"
   });
 
   // Creo un set a partir de dietsList para eliminar duplicados

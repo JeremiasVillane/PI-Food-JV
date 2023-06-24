@@ -13,6 +13,25 @@ const Detail = ({ handleDiet }) => {
 
   const recipe = useSelector((state) => state.detail);
   const { title, image, healthScore, diets, summary, steps } = recipe;
+
+  // const replaceLinksInSummary = () => {
+  //   if (!summary) {
+  //     return "";
+  //   }
+  //   const regex = /<a href="https:\/\/spoonacular\.com\/recipes\/.+?-(\d+)">(.+?)<\/a>/g;
+  //   const matches = summary.matchAll(regex);
+  //   let modifiedText = summary;
+  
+  //   for (const match of matches) {
+  //     const [fullMatch, id, linkText] = match;
+  //     const link = `/detail/${id}`;
+  //     const replacedText = `<Link to="${link}">${linkText}</Link>`;
+  //     modifiedText = modifiedText.replace(fullMatch, replacedText);
+  //   }
+  
+  //   return modifiedText;
+  // };
+
   return (
     <div>
       <h1>{title}</h1>

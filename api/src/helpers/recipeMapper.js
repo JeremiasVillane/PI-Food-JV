@@ -34,22 +34,17 @@ module.exports = (recipes, mode) => {
       title: recipe.title,
       image: recipe.image,
       healthScore: recipe.healthScore,
-      diets: dietsFormatter(recipe.diets),
+      // Añado a dietsFormatter() la propiedad vegetarian
+      // como segundo parámetro:
+      diets: dietsFormatter(recipe.diets, recipe.vegetarian),
       source: recipe.source === "db" ? recipe.source : "api", // API o BDD
     };
 
-    if (includeSummary) {
-      outputRecipe.summary = summary(recipe.summary);
-    }
-
-    if (includeSteps) {
-      outputRecipe.steps = steps(recipe);
-    }
+    includeSummary && (outputRecipe.summary = summary(recipe.summary));
+    includeSteps && (outputRecipe.steps = steps(recipe));
 
     return outputRecipe;
   });
 
-  // Si el resultado son más de una receta, retorno el arreglo completo
-  // Si es una sola receta, retorno solo la receta
-  return output //.length > 1 ? output : output[0];
+  return output;
 };
