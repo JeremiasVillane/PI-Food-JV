@@ -7,7 +7,7 @@ const Cards = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllRecipes());
+    // dispatch(getAllRecipes());
     dispatch(getDiets());
   }, [dispatch]);
   

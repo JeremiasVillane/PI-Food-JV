@@ -1,4 +1,4 @@
-import { FILTERS, FILTER_BY_DIETS, GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, RESET_DETAIL } from "./action-types";
+import { FILTERS, GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, RESET_DETAIL } from "./action-types";
 
 const initialState = {
   recipes: [],
@@ -21,12 +21,9 @@ const reducer = (state = initialState, { type, payload }) => {
     case FILTERS:
       return {...state,
       filter: payload};
-    case FILTER_BY_DIETS:
-      return {...state,
-      filter: payload};
     case GET_DIETS:
       return {...state,
-      diets: payload};  
+      diets: payload};
     default:
       return { ...state };
   }

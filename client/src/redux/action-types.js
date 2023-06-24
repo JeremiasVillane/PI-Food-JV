@@ -6,11 +6,9 @@ export const FILTERS = "FILTERS"
 export const RESET_FILTERS = "RESET_FILTERS";
 
 
-export const FILTER_BY_DIETS = "FILTER_BY_DIETS";
-export const FILTER_BY_SOURCE = "FILTER_BY_SOURCE";
+// export const FILTER_BY_DIETS = "FILTER_BY_DIETS";
 
 
 export const NEW_RECIPE = "NEW_RECIPE";
 export const DELETE_RECIPE = "DELETE_RECIPE";
-export const ORDER = "ORDER";
 export const RESET_RECIPES = "RESET_RECIPES";

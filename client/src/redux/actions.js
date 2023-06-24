@@ -1,7 +1,6 @@
 import axios from "axios";
 import {
   FILTERS,
-  FILTER_BY_DIETS,
   GET_ALL_RECIPES,
   GET_DIETS,
   GET_RECIPE_DETAIL,
@@ -38,7 +37,7 @@ export const resetDetail = () => {
   };
 };
 
-export const filtering = (filters) => {
+export const filtering = (filters, value) => {
   return async (dispatch) => {
     try {
       const { search, source, diets } = filters;
@@ -50,21 +49,16 @@ export const filtering = (filters) => {
       const apiData = await axios(
         `/recipes/?name=${search}&source=${source}&diets=${selectedDiets}`
       );
-      const recipes = apiData.data;
+      let recipes = apiData.data;
       if (recipes.error) return window.alert(recipes.error);
+      if (value) {
+        if (value === "az") {
+          recipes = recipes.sort((a, b) => a.id - b.id);
+        } else if (value === "za") {
+          recipes = recipes.sort((a, b) => b.id - a.id);
+        }
+      }
       dispatch({ type: FILTERS, payload: recipes });
-    } catch (error) {
-      window.alert(error.message);
-    }
-  };
-};
-
-export const filterByDiets = (diet) => {
-  return async (dispatch) => {
-    try {
-      const apiData = await axios(`/recipes?diets=${diet}`);
-      const filteredRecipes = apiData.data;
-      dispatch({ type: FILTER_BY_DIETS, payload: filteredRecipes });
     } catch (error) {
       window.alert(error.message);
     }

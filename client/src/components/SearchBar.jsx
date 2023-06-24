@@ -5,12 +5,14 @@ import { filtering } from "../redux/actions";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const diets = useSelector((state) => state.diets);
   const [search, setSearch] = useState("");
   const [source, setSource] = useState("");
   const [dietsState, setDietsState] = useState({});
+  const [order, setOrder] = useState("");
+  const [filters, setFilters] = useState({})
 
   useEffect(() => {
     const filters = {
@@ -18,11 +20,12 @@ const SearchBar = () => {
       source,
       diets: dietsState,
     };
-    dispatch(filtering(filters));
+    setFilters(filters);
+    dispatch(filtering(filters, order));
     if (pathname !== "/home") {
       navigate("/home");
     }
-  }, [dispatch, search, source, dietsState]);
+  }, [dispatch, search, source, dietsState, order]);
 
   const handleCheckbox = (event) => {
     const { value, checked } = event.target;
@@ -40,26 +43,9 @@ const SearchBar = () => {
       setSearch(value);
     } else if (name === "source") {
       setSource(value);
-    }
-  };
-
-  const handleSearch = () => {
-    const filters = {
-      search,
-      source,
-      diets: dietsState,
-    };
-
-    dispatch(filtering(filters));
-
-    if (pathname !== "/home") {
-      navigate("/home");
-    }
-  };
-
-  const handleKeypress = (event) => {
-    if (event.key === "Enter") {
-      handleSearch(event);
+    } else if (name === "order_alpha") {
+      setOrder(value)
+      // dispatch(filtering(filters, value));
     }
   };
 
@@ -67,6 +53,7 @@ const SearchBar = () => {
     setDietsState({});
     setSearch("");
     setSource("");
+    setOrder("");
   };
 
   return (
@@ -76,12 +63,8 @@ const SearchBar = () => {
         value={search}
         type="text"
         onChange={handleChange}
-        onKeyPress={handleKeypress}
         placeholder="Search recipes..."
       />
-      {pathname !== "/home" && (
-        <button onClick={handleSearch}>Search</button>
-      )}
       {pathname === "/home" && (
         <>
           <div onChange={handleChange}>
@@ -105,6 +88,11 @@ const SearchBar = () => {
               </label>
             ))}
           </div>
+          <select name="order_alpha" value={order} onChange={handleChange}>
+            <option value="default">Default</option>
+            <option value="az">Ascending</option>
+            <option value="za">Descending</option>
+          </select>
           <button onClick={handleResetFilters}>Reset filters</button>
         </>
       )}
