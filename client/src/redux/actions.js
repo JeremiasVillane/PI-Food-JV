@@ -1,10 +1,13 @@
 import axios from "axios";
 import {
-  FILTERS,
+  CHANGE_PAGE,
+  ERROR,
+  FILTERING,
   GET_ALL_RECIPES,
   GET_DIETS,
   GET_RECIPE_DETAIL,
   RESET_DETAIL,
+  SORTING,
 } from "./action-types";
 
 export const getAllRecipes = () => {
@@ -14,7 +17,10 @@ export const getAllRecipes = () => {
       const recipes = apiData.data;
       dispatch({ type: GET_ALL_RECIPES, payload: recipes });
     } catch (error) {
-      window.alert(error.message);
+      return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
   };
 };
@@ -26,7 +32,10 @@ export const getRecipeDetail = (id) => {
       const recipe = apiData.data[0];
       dispatch({ type: GET_RECIPE_DETAIL, payload: recipe });
     } catch (error) {
-      window.alert(error.message);
+      return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
   };
 };
@@ -37,31 +46,34 @@ export const resetDetail = () => {
   };
 };
 
-export const filtering = (filters, value) => {
+export const filtering = (filters) => {
   return async (dispatch) => {
     try {
       const { search, source, diets } = filters;
       const dietNames = Object.entries(diets)
-      .filter(([_, selected]) => selected === true)
-      .map(([dietName, _]) => dietName);
+        .filter(([_, selected]) => selected === true)
+        .map(([dietName, _]) => dietName);
 
-      const selectedDiets = dietNames.join(',');
+      const selectedDiets = dietNames.join(",");
       const apiData = await axios(
         `/recipes/?name=${search}&source=${source}&diets=${selectedDiets}`
       );
       let recipes = apiData.data;
       if (recipes.error) return window.alert(recipes.error);
-      if (value) {
-        if (value === "az") {
-          recipes = recipes.sort((a, b) => a.id - b.id);
-        } else if (value === "za") {
-          recipes = recipes.sort((a, b) => b.id - a.id);
-        }
-      }
-      dispatch({ type: FILTERS, payload: recipes });
+      dispatch({ type: FILTERING, payload: recipes });
     } catch (error) {
-      window.alert(error.message);
+      return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
+  };
+};
+
+export const sorting = (order) => {
+  return {
+    type: SORTING,
+    payload: order,
   };
 };
 
@@ -72,7 +84,15 @@ export const getDiets = () => {
       const diets = apiData.data;
       dispatch({ type: GET_DIETS, payload: diets });
     } catch (error) {
-      window.alert(error.message);
+      return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
     }
   };
 };
+
+export const changePage = (pageNumber) => ({
+  type: CHANGE_PAGE,
+  payload: pageNumber,
+});

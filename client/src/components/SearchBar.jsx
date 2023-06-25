@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { filtering } from "../redux/actions";
+import { filtering, sorting } from "../redux/actions";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const SearchBar = () => {
   const [source, setSource] = useState("");
   const [dietsState, setDietsState] = useState({});
   const [order, setOrder] = useState("");
-  const [filters, setFilters] = useState({})
+  const [filters, setFilters] = useState({});
 
   useEffect(() => {
     const filters = {
@@ -21,31 +21,26 @@ const SearchBar = () => {
       diets: dietsState,
     };
     setFilters(filters);
-    dispatch(filtering(filters, order));
-    if (pathname !== "/home") {
-      navigate("/home");
-    }
-  }, [dispatch, search, source, dietsState, order]);
-
-  const handleCheckbox = (event) => {
-    const { value, checked } = event.target;
-
-    setDietsState((prevDietsState) => ({
-      ...prevDietsState,
-      [value]: checked,
-    }));
-  };
+    dispatch(filtering(filters))?.then(() => {
+      //then(order && dispatch(sorting(order)))
+      if (order) dispatch(sorting(order));
+    });
+    if (pathname !== "/home") navigate("/home");
+  }, [dispatch, search, source, dietsState]);
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, checked } = event.target;
 
-    if (name === "search") {
-      setSearch(value);
-    } else if (name === "source") {
-      setSource(value);
-    } else if (name === "order_alpha") {
-      setOrder(value)
-      // dispatch(filtering(filters, value));
+    checked !== undefined &&
+      setDietsState((prevDietsState) => ({
+        ...prevDietsState,
+        [value]: checked,
+      }));
+    name === "search" && setSearch(value);
+    name === "source" && setSource(value);
+    if (name === "sorting") {
+      setOrder(value);
+      dispatch(sorting(value));
     }
   };
 
@@ -82,16 +77,18 @@ const SearchBar = () => {
                   type="checkbox"
                   value={diet}
                   checked={dietsState[diet] || false}
-                  onChange={handleCheckbox}
+                  onChange={handleChange}
                 />
                 {diet.charAt(0).toUpperCase() + diet.slice(1)}
               </label>
             ))}
           </div>
-          <select name="order_alpha" value={order} onChange={handleChange}>
+          <select name="sorting" value={order} onChange={handleChange}>
             <option value="default">Default</option>
-            <option value="az">Ascending</option>
-            <option value="za">Descending</option>
+            <option value="az">A to Z</option>
+            <option value="za">Z to A</option>
+            <option value="healthAsc">Health Score Asc.</option>
+            <option value="healthDesc">Health Score Desc.</option>
           </select>
           <button onClick={handleResetFilters}>Reset filters</button>
         </>

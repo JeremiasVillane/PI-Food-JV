@@ -37,13 +37,3 @@ module.exports = async (title, image, summary, healthScore, steps, diets) => {
   // Mapeo la receta y la retorno
   return recipeMapper([recipeWithDiets], "full");
 };
-
-// Obtengo las diets asociadas con las recipes:
-// Con getDiets(), Sequelize realiza una consulta a la BDD y recupera
-// los registros relacionados en la tabla de asociación entre Recipe y Diet
-// const recipeDiets = await recipe.getDiets();
-
-// Retorno un objeto con la información:
-// La receta creada y las dietas asociadas
-// const output = [recipe, recipeDiets];
-// return output;

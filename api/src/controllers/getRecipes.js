@@ -6,10 +6,21 @@ const recipeMapper = require("../helpers/recipeMapper.js");
 const { API_KEY, API_URL } = process.env;
 const URL = `${API_URL}/complexSearch?addRecipeInformation=true&number=100&apiKey=${API_KEY}`;
 
+// Búsqueda de fragmentos de palabra que coincidan
+// con cualquier parte del título, en cualquier orden
 module.exports = async (name) => {
-  // Resultados de la BDD:
+  //-------------- Resultados de la BDD --------------//
   const dbResults = await Recipe.findAll({
-    where: name ? { title: { [Op.iLike]: `%${name}%` } } : {},
+    // Con Op.and se busca consecutivamente cada palabra
+    // contemplando que haya espacio entre ellas
+    // Con Op.iLike se busca en mayúsculas y minúsculas
+    where: name
+      ? {
+          [Op.and]: name.split(" ").map((word) => ({
+            title: { [Op.iLike]: `%${word}%` },
+          })),
+        }
+      : {},
     include: {
       model: Diet,
       as: "diets",
@@ -18,15 +29,18 @@ module.exports = async (name) => {
     },
   });
 
-  // Respuesta de la API (100 recipes):
+  //------- Respuesta de la API (100 recipes) -------//
   const apiResponse = (await axios(URL)).data.results;
 
   // Filtro los resultados de la API si hubo un name,
   // si no, guardo la respuesta completa de la API
   const apiResults = name
-    ? apiResponse?.filter((recipe) =>
-        recipe.title.toLowerCase().includes(name.toLowerCase())
-      )
+    ? apiResponse?.filter((recipe) => {
+        // Por cada palabra, se verifica que esté incluida en el título
+        // sea en minúsculas o mayúsculas, completa o parcialmente
+        const words = name.toLowerCase().split(" ");
+        return words.every((word) => recipe.title.toLowerCase().includes(word));
+      })
     : apiResponse;
 
   // Combino los resultados:
@@ -38,28 +52,5 @@ module.exports = async (name) => {
   }
 
   // Mapeo las recetas y las retorno
-  return recipeMapper(recipes, "brief");  
+  return recipeMapper(recipes, "brief");
 };
-
-
-
-
-// Si es una recipe de la BDD, tendrá una key "steps" 
-// y "diets" será un array de objetos
-// Si es de la API los "steps" estarán dentro de "analyzedInstructions" 
-// y "diets" será un array de strings
-// const output = recipes.map((recipe) => ({
-//   id: recipe.id,
-//   title: recipe.title,
-//   image: recipe.image,
-//   summary: recipe.summary,
-//   healthScore: recipe.healthScore,
-//   steps: recipe.analyzedInstructions
-//     ? recipe.analyzedInstructions[0]?.steps.reduce((obj, s) => {
-//         obj[s.number] = s.step;
-//         return obj;
-//       }, {})
-//     : recipe.steps,
-//   diets: recipe.diets.map((diet) => (diet.name ? diet.name : diet)),
-// }));
-//return output;

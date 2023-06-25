@@ -1,23 +1,39 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAllRecipes, getDiets } from "../redux/actions";
 import Card from "./Card";
 
-const Cards = () => {
+const Cards = ({ displayedRecipes, handleNextPage, handlePrevPage }) => {
   const dispatch = useDispatch();
+  // const { recipes, filteredRecipes } = useSelector((state) => state);
 
   useEffect(() => {
-    // dispatch(getAllRecipes());
+    dispatch(getAllRecipes());
     dispatch(getDiets());
   }, [dispatch]);
-  
-  const recipes = useSelector((state) => state.recipes);
-  const filter = useSelector((state) => state.filter);
 
   return (
     <div>
-      {filter.length
-        ? filter.map((recipe) => {
+      <button onClick={handlePrevPage}>Prev</button>
+      <button onClick={handleNextPage}>Next</button>
+      {displayedRecipes.map((recipe) => {
+        const { id, title, image, diets, healthScore } = recipe;
+
+        return (
+          <Card
+            id={id}
+            key={id}
+            title={title}
+            image={image}
+            diets={diets}
+            healthScore={healthScore}
+          />
+        );
+      })}
+      <button onClick={handlePrevPage}>Prev</button>
+      <button onClick={handleNextPage}>Next</button>
+      {/* {filteredRecipes?.length
+        ? filteredRecipes?.map((recipe) => {
             const { id, title, image, diets, healthScore } = recipe;
 
             return (
@@ -28,11 +44,10 @@ const Cards = () => {
                 image={image}
                 diets={diets}
                 healthScore={healthScore}
-                // handleDiet={handleDiet}
               />
             );
           })
-        : recipes.map((recipe) => {
+        : recipes?.map((recipe) => {
             const { id, title, image, diets, healthScore } = recipe;
 
             return (
@@ -43,10 +58,9 @@ const Cards = () => {
                 image={image}
                 diets={diets}
                 healthScore={healthScore}
-                // handleDiet={handleDiet}
               />
             );
-          })}
+          })} */}
     </div>
   );
 };
