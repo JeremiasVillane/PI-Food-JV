@@ -1,21 +1,17 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { getAllRecipes, getDiets } from "../redux/actions";
+// import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+// import { getAllRecipes, getDiets } from "../redux/actions";
 import Card from "./Card";
+import Pagination from "./Pagination";
 
-const Cards = ({ displayedRecipes, handleNextPage, handlePrevPage }) => {
+const Cards = ({ displayedRecipes }) => {
   const dispatch = useDispatch();
+  // const { diets, recipes } = useSelector((state) => state);
   // const { recipes, filteredRecipes } = useSelector((state) => state);
-
-  useEffect(() => {
-    dispatch(getAllRecipes());
-    dispatch(getDiets());
-  }, [dispatch]);
 
   return (
     <div>
-      <button onClick={handlePrevPage}>Prev</button>
-      <button onClick={handleNextPage}>Next</button>
+      <Pagination />
       {displayedRecipes.map((recipe) => {
         const { id, title, image, diets, healthScore } = recipe;
 
@@ -30,8 +26,7 @@ const Cards = ({ displayedRecipes, handleNextPage, handlePrevPage }) => {
           />
         );
       })}
-      <button onClick={handlePrevPage}>Prev</button>
-      <button onClick={handleNextPage}>Next</button>
+      <Pagination />
       {/* {filteredRecipes?.length
         ? filteredRecipes?.map((recipe) => {
             const { id, title, image, diets, healthScore } = recipe;

@@ -3,7 +3,7 @@ import SearchBar from "./SearchBar";
 
 const NavBar = () => {
   return (
-    <div>
+    <div style={{position: "sticky", top: "0", backgroundColor: "lightyellow"}}>
       <NavLink to="/home">HOME</NavLink>
       <NavLink to="/new">NEW RECIPE</NavLink>
       <NavLink to="/about">ABOUT</NavLink>

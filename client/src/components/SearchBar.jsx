@@ -1,37 +1,43 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { filtering, sorting } from "../redux/actions";
+import { changePage, filtering, sorting } from "../redux/actions";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const diets = useSelector((state) => state.diets);
+  const { diets, filteredRecipes } = useSelector((state) => state);
   const [search, setSearch] = useState("");
   const [source, setSource] = useState("");
   const [dietsState, setDietsState] = useState({});
   const [order, setOrder] = useState("");
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    search: "",
+    source: "",
+    diets: {},
+  });
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
-    const filters = {
-      search,
-      source,
-      diets: dietsState,
-    };
-    setFilters(filters);
-    dispatch(filtering(filters))?.then(() => {
-      //then(order && dispatch(sorting(order)))
-      if (order) dispatch(sorting(order));
-    });
-    if (pathname !== "/home") navigate("/home");
-  }, [dispatch, search, source, dietsState]);
+    if (
+      search === "" &&
+      source === "" &&
+      Object.keys(dietsState).length === 0 &&
+      order === ""
+    ) {
+      !filteredRecipes.length &&
+        dispatch(filtering(filters)).then(() => {
+          if (order) dispatch(sorting(order));
+        });
+    }
+  }, [dispatch, search, source, dietsState, order, pathname, navigate]);
 
   const handleChange = (event) => {
     const { name, value, checked } = event.target;
 
     checked !== undefined &&
+      name !== "search" &&
       setDietsState((prevDietsState) => ({
         ...prevDietsState,
         [value]: checked,
@@ -44,11 +50,40 @@ const SearchBar = () => {
     }
   };
 
+  const handleSearch = () => {
+    const filters = {
+      search,
+      source,
+      diets: dietsState,
+    };
+    setFilters(filters);
+    dispatch(filtering(filters)).then(() => {
+      if (order) dispatch(sorting(order));
+    });
+    // setIsSearching(true);
+    dispatch(changePage(0));
+    if (pathname !== "/home") navigate("/home");
+  };
+
+  const handleKeypress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   const handleResetFilters = () => {
     setDietsState({});
     setSearch("");
     setSource("");
     setOrder("");
+    // setIsSearching(false);
+    const filters = {
+      search: "",
+      source: "",
+      diets: {},
+    };
+    setFilters(filters);
+    dispatch(filtering(filters));
   };
 
   return (
@@ -56,10 +91,12 @@ const SearchBar = () => {
       <input
         name="search"
         value={search}
-        type="text"
+        type="search"
         onChange={handleChange}
+        onKeyPress={handleKeypress}
         placeholder="Search recipes..."
       />
+      <button onClick={handleSearch}>Search</button>
       {pathname === "/home" && (
         <>
           <div onChange={handleChange}>
@@ -90,7 +127,7 @@ const SearchBar = () => {
             <option value="healthAsc">Health Score Asc.</option>
             <option value="healthDesc">Health Score Desc.</option>
           </select>
-          <button onClick={handleResetFilters}>Reset filters</button>
+          <button onClick={handleResetFilters}>Reset all fields</button>
         </>
       )}
     </div>

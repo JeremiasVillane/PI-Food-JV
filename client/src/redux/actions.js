@@ -6,6 +6,7 @@ import {
   GET_ALL_RECIPES,
   GET_DIETS,
   GET_RECIPE_DETAIL,
+  NEW_RECIPE,
   RESET_DETAIL,
   SORTING,
 } from "./action-types";
@@ -17,6 +18,7 @@ export const getAllRecipes = () => {
       const recipes = apiData.data;
       dispatch({ type: GET_ALL_RECIPES, payload: recipes });
     } catch (error) {
+      window.alert("The recipes couldn't be loaded, please try again later...");
       return dispatch({
         type: ERROR,
         payload: error.message,
@@ -32,9 +34,10 @@ export const getRecipeDetail = (id) => {
       const recipe = apiData.data[0];
       dispatch({ type: GET_RECIPE_DETAIL, payload: recipe });
     } catch (error) {
+      window.alert("The recipe couldn't be loaded, please try again later...");
       return dispatch({
         type: ERROR,
-        payload: error.message,
+        payload: error.message || error.response.data.message,
       });
     }
   };
@@ -49,7 +52,8 @@ export const resetDetail = () => {
 export const filtering = (filters) => {
   return async (dispatch) => {
     try {
-      const { search, source, diets } = filters;
+      let { search, source, diets } = filters;
+      search === undefined && (search = "");
       const dietNames = Object.entries(diets)
         .filter(([_, selected]) => selected === true)
         .map(([dietName, _]) => dietName);
@@ -96,3 +100,24 @@ export const changePage = (pageNumber) => ({
   type: CHANGE_PAGE,
   payload: pageNumber,
 });
+
+export const newRecipe = (recipeData) => {
+  return async (dispatch) => {
+    try {
+      const dietNames = Object.entries(recipeData.diets)
+      .filter(([_, selected]) => selected === true)
+      .map(([dietName, _]) => dietName);
+      recipeData.diets = dietNames;
+      
+      const apiResponse = await axios.post("/recipes", recipeData);
+      const createdRecipe = apiResponse.data;
+
+      dispatch({ type: NEW_RECIPE, payload: createdRecipe[0] });
+    } catch (error) {
+      return dispatch({
+        type: ERROR,
+        payload: error.message,
+      });
+    }
+  };
+};

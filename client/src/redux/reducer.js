@@ -1,4 +1,4 @@
-import { CHANGE_PAGE, ERROR, FILTERING, GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, RESET_DETAIL, SORTING, } from "./action-types";
+import { CHANGE_PAGE, ERROR, FILTERING, GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, NEW_RECIPE, RESET_DETAIL, SORTING, } from "./action-types";
 
 const initialState = {
   recipes: [],
@@ -21,13 +21,18 @@ const reducer = (state = initialState, { type, payload }) => {
     case RESET_DETAIL:
       return { ...state,
       detail: []};
+    case NEW_RECIPE:
+      return { ...state,
+      // recipes: [payload, ...state.recipes ],
+      // filteredRecipes: state.recipes,
+      detail: payload };
     case FILTERING:
       return { ...state,
       filteredRecipes: payload };
     case SORTING:
       const recipesCopy = [...state?.filteredRecipes];
       let sortedRecipes;
-      payload === "default" && (sortedRecipes = state.recipes);
+      payload === "default" && (sortedRecipes = recipesCopy);
       // localCompare() ordena teniendo en cuenta los espacios y caracteres especiales
       payload === "az" 
         && (sortedRecipes = recipesCopy

@@ -1,20 +1,10 @@
 import React from "react";
-// import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { NavBar } from "./components";
-// import { filterByDiets } from "./redux/actions";
 import { About, Detail, Form, Home, Landing, NotFound } from "./views";
 
 const App = () => {
   const { pathname } = useLocation();
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
-  // const handleDiet = (event) => {
-  //   const { textContent } = event.target;
-  //   dispatch(filterByDiets(textContent));
-  //   location.pathname !== "/home" && navigate("/home");
-  // };
   
   return (
     <div className="App">

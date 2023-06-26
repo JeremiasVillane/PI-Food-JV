@@ -1,11 +1,20 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getRecipeDetail } from "../redux/actions";
+import { getAllRecipes, getDiets, getRecipeDetail } from "../redux/actions";
 
 const Detail = ({ handleDiet }) => {
   const { id } = useParams();
+  const recipesGlobal = useSelector((state) => state.recipes);
+  const dietsGlobal = useSelector((state) => state.diets);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    !recipesGlobal.length &&
+    dispatch(getAllRecipes());
+    !dietsGlobal.length &&
+    dispatch(getDiets())
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getRecipeDetail(id));
@@ -49,8 +58,8 @@ const Detail = ({ handleDiet }) => {
       <section>Steps:</section>
       {steps && (
         <ol>
-          {Object.entries(steps).map(([key, value]) => (
-            <li key={key}>{value}</li>
+          {steps.map((step, index) => (
+            <li key={index}>{step.step}</li>
           ))}
         </ol>
       )}

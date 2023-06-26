@@ -14,9 +14,7 @@ module.exports = async (req, res) => {
     res.status(200).json(recipeById);
   } catch (error) {
     return res.status(500).json({
-      error: error.response
-        ? error.response.data.message
-        : error.message || error.name,
+      api_error: error.response.data.message, db_error: error.message
     });
   }
 };

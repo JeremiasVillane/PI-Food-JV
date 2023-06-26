@@ -33,24 +33,3 @@ module.exports = async (idRecipe) => {
   // Mapeo la receta y la retorno
   return recipeMapper([foundRecipe], "full");
 };
-
-// const { id, title, image, summary, healthScore, diets } = foundRecipe;
-
-// // Si es una recipe de la BDD, tendrá una key "steps"
-// // y "diets" será un array de objetos
-// // Si es de la API los "steps" estarán dentro de "analyzedInstructions"
-// // y "diets" será un array de strings
-// return {
-//   id,
-//   title,
-//   image,
-//   summary,
-//   healthScore,
-//   steps: foundRecipe.analyzedInstructions
-//     ? foundRecipe.analyzedInstructions[0]?.steps.reduce((obj, s) => {
-//         obj[s.number] = s.step;
-//         return obj;
-//       }, {})
-//     : foundRecipe.steps,
-//   diets: diets.map((diet) => (diet.name ? diet.name : diet)),
-// };
