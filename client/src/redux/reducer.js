@@ -14,7 +14,8 @@ const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_ALL_RECIPES:
       return { ...state,
-      recipes: payload };
+      recipes: payload, 
+      filteredRecipes: payload };
     case GET_RECIPE_DETAIL:
       return { ...state,
       detail: payload };

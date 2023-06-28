@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getAllRecipes, getDiets, newRecipe } from "../redux/actions";
+import { getAllRecipes, getDiets, newRecipe, resetDetail } from "../redux/actions";
+import { FormContainer, FormTitle, FormField, FormLabel, FormInput, FormTextarea, FormButton, FormStepList, FormStepInput, FormCheckboxContainer, FormCheckboxLabel, FormRangeInput, FormImageInput } from "../styles/StyledForm.styled";
 
 const Form = () => {
   const dispatch = useDispatch();
@@ -16,17 +17,20 @@ const Form = () => {
     healthScore: 50,
     image: "",
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({title: "", summary: ""});
 
   useEffect(() => {
-    !recipes.length &&
-    dispatch(getAllRecipes());
-    !diets.length &&
-    dispatch(getDiets())
+    dispatch(resetDetail());
+  }, [dispatch]);
+
+  useEffect(() => {
+    !recipes.length && dispatch(getAllRecipes());
+    !diets.length && dispatch(getDiets());
   }, [dispatch]);
 
   useEffect(() => {
     if (isRecipeCreated) {
+      window.alert("Recipe successfully created");
       navigate(`/detail/${detail.id}`);
     }
   }, [isRecipeCreated, navigate, detail.id]);
@@ -38,6 +42,10 @@ const Form = () => {
         ...recipeData,
         [name]: value,
       });
+      setErrors(validateField({
+        ...recipeData,
+        [name]: value,
+      }));
     } else {
       setRecipeData((prevRecipeData) => {
         const updatedDiets = { ...prevRecipeData.diets };
@@ -52,10 +60,6 @@ const Form = () => {
         };
       });
     }
-    // setErrors(validateField({
-    //   ...recipeData,
-    //   [name]: value,
-    // }));
   };
 
   // const handleSteps = (event, index) => {
@@ -104,19 +108,26 @@ const Form = () => {
     const endIndex = recipeData.steps.length - 1;
     setRecipeData({
       ...recipeData,
-      steps: [...recipeData.steps.slice(0,endIndex)],
-    })
-  }
+      steps: [...recipeData.steps.slice(0, endIndex)],
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    await dispatch(newRecipe(recipeData))
-      .then(() => {
-        window.alert("Recipe successfully created");
-        setIsRecipeCreated(true);
-        dispatch(getDiets()).then(() => dispatch(getAllRecipes()));
-      });
+
+    await dispatch(newRecipe(recipeData)).then(() => {
+      setIsRecipeCreated(true);
+      setRecipeData({
+        title: "",
+        summary: "",
+        steps: [],
+        diets: [],
+        healthScore: 50,
+        image: "",
+      })
+      dispatch(getDiets())
+      dispatch(getAllRecipes());
+    });
   };
 
   // const handleCreateRecipe = (event) => {
@@ -126,97 +137,125 @@ const Form = () => {
   //     .catch((error) => console.error("Error:", error));
   // };
 
-  // const validateField = (name, value) => {
-  //   let error = null;
+  const validateField = (input) => {
+    let { title, summary } = input;
+    let errors = {};
 
-  //   if (name === "title" && !value) {
-  //     error = "El título es obligatorio.";
-  //   } else if (name === "summary" && !value) {
-  //     error = "Este campo es obligatorio.";
-  //   } else if (name === "healthScore" && (value < 0 || value > 100)) {
-  //     error = "Debe ingresar un número del 1 al 100.";
-  //   }
+    if (!title.length) errors.title = "The recipe must have a title";
+    if (title.length > 50) errors.title = "The recipe title cannot be longer than 50 characters";
+    if (!summary.length) errors.summary = "The recipe must have a summary";
+    if (summary.length > 500) errors.summary = "The summary cannot be longer than 500 characters";
 
-  //   return error;
-  // };
-
+    return errors;
+  };
   // const isButtonDisabled = Object.keys(errors).length > 0;
 
   return (
-    <>
-      <h1>Create new recipe:</h1>
+    <FormContainer>
+      <FormTitle>Create new recipe:</FormTitle>
       <div>
         <form>
-          <h3>Title:</h3>
-          <input
-            name="title"
-            value={recipeData.title}
-            type="text"
-            onChange={handleChange}
-            placeholder="Title of your recipe..."
-            autoFocus={true}
-          />
-          <h3>Sumary:</h3>
-          <textarea
-            name="summary"
-            value={recipeData.summary}
-            type="text"
-            onChange={handleChange}
-            placeholder="Description of your recipe..."
-            rows="4" cols="60"
-          />
-          <h3>Steps:</h3>
-          <button onClick={handleAddStep} disabled={recipeData.steps.length === 12}>Add step</button>
-          <button onClick={handleRemoveStep} disabled={!recipeData.steps.length}>Remove step</button>
-          <ol>
-            {recipeData.steps.map((step, index) => (
-              <li key={index}>
-                <input
-                  type="text"
-                  name={step.number}
-                  value={step.step}
-                  onChange={(event) => handleSteps(event, index)}
-                />
-              </li>
-            ))}
-          </ol>
-          <h3>Related diets:</h3>
-          <div>
-            {diets.map((diet, index) => (
-              <label key={index}>
-                <input
-                  key={index}
-                  type="checkbox"
-                  value={diet}
-                  checked={recipeData.diets[diet] || false}
-                  onChange={handleChange}
-                />
-                {diet.charAt(0).toUpperCase() + diet.slice(1)}
-              </label>
-            ))}
-          </div>
-          <h3>Health Score:</h3>
-          <input
-            name="healthScore"
-            value={recipeData.healthScore}
-            type="range"
-            min="1"
-            max="100"
-            onChange={handleChange}
-            placeholder="How healthy is your recipe..."
-          />
-          <h3>Image:</h3>
-          <input
-            name="image"
-            value={recipeData.image}
-            type="text"
-            onChange={handleChange}
-            placeholder="URL for your image..."
-          />
-          <button onClick={handleSubmit}>Create</button>
+          <FormField>
+            <FormLabel>Title:</FormLabel>
+            <FormInput
+              name="title"
+              value={recipeData.title}
+              type="text"
+              onChange={handleChange}
+              placeholder="Title of your recipe..."
+              autoFocus={true}
+            />
+          </FormField>
+          {errors.title && (
+            <span>{errors.title}</span>
+          )}
+          <FormField>
+            <FormLabel>Sumary:</FormLabel>
+            <FormTextarea
+              name="summary"
+              value={recipeData.summary}
+              type="text"
+              onChange={handleChange}
+              placeholder="Description of your recipe..."
+              rows="4"
+              cols="60"
+            />
+          </FormField>
+          {errors.summary && (
+            <span>{errors.summary}</span>
+          )}
+          <FormField>
+            <FormLabel>Steps:</FormLabel>
+            <FormButton
+              onClick={handleAddStep}
+              disabled={recipeData.steps.length === 12}
+            >
+              Add step
+            </FormButton>
+            <FormButton
+              onClick={handleRemoveStep}
+              disabled={!recipeData.steps.length}
+            >
+              Remove step
+            </FormButton>
+            <FormStepList>
+              {recipeData.steps.map((step, index) => (
+                <li key={index}>
+                  <FormStepInput
+                    type="text"
+                    name={step.number}
+                    value={step.step}
+                    onChange={(event) => handleSteps(event, index)}
+                  />
+                </li>
+              ))}
+            </FormStepList>
+          </FormField>
+          <FormField>
+            <FormLabel>Related diets:</FormLabel>
+            <div>
+              {diets.map((diet, index) => (
+                <FormCheckboxContainer key={index}>
+                  <input
+                    key={index}
+                    type="checkbox"
+                    value={diet}
+                    checked={recipeData.diets[diet] || false}
+                    onChange={handleChange}
+                  />
+                  <FormCheckboxLabel>
+                    {diet.charAt(0).toUpperCase() + diet.slice(1)}
+                  </FormCheckboxLabel>
+                </FormCheckboxContainer>
+              ))}
+            </div>
+          </FormField>
+          <FormField>
+            <FormLabel>Health Score: <span>{recipeData.healthScore}</span></FormLabel>
+            <FormRangeInput
+              name="healthScore"
+              value={recipeData.healthScore}
+              type="range"
+              min="1"
+              max="100"
+              onChange={handleChange}
+              placeholder="How healthy is your recipe..."
+            />
+          </FormField>
+          <FormField>
+            <FormLabel>Image:</FormLabel>
+            <FormImageInput
+              name="image"
+              value={recipeData.image}
+              type="text"
+              onChange={handleChange}
+              placeholder="URL for your image..."
+            />
+          </FormField>
+          <FormButton onClick={handleSubmit} disabled={Object.keys(errors).length > 0}>Create</FormButton>
         </form>
       </div>
-    </>
+    </FormContainer>
   );
 };
 

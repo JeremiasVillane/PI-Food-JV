@@ -108,6 +108,8 @@ export const newRecipe = (recipeData) => {
       .filter(([_, selected]) => selected === true)
       .map(([dietName, _]) => dietName);
       recipeData.diets = dietNames;
+
+      // if (!recipeData.image.length) delete recipeData.image;
       
       const apiResponse = await axios.post("/recipes", recipeData);
       const createdRecipe = apiResponse.data;

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { changePage, filtering, sorting } from "../redux/actions";
+import { SearchBarContainer, SearchBarMain, Search, SearchInput, SearchButton, Order, SortByLabel, SortBySelect, ResetButton, AdvancedSearchContainer, AdvancedSearchLink, AdvancedOptionsContainer, SourceSelect, CheckboxContainer, CheckboxLabel, CheckboxInput, Arrow } from "../styles/StyledSearchBar.styled";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -86,51 +87,73 @@ const SearchBar = () => {
     dispatch(filtering(filters));
   };
 
+
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+
+  const handleClick = () => setShowAdvancedOptions((curr) => !curr);
+
   return (
-    <div>
-      <input
-        name="search"
-        value={search}
-        type="search"
-        onChange={handleChange}
-        onKeyPress={handleKeypress}
-        placeholder="Search recipes..."
-      />
-      <button onClick={handleSearch}>Search</button>
+    <>
       {pathname === "/home" && (
-        <>
-          <div onChange={handleChange}>
-            <select name="source" value={source} onChange={handleChange}>
+        <SearchBarContainer>
+          <SearchBarMain>
+            <Search>
+            <SearchInput
+              name="search"
+              value={search}
+              type="search"
+              onChange={handleChange}
+              onKeyPress={handleKeypress}
+              placeholder="Search recipes..."
+            />
+            <SearchButton onClick={handleSearch}>Search</SearchButton>
+            </Search>
+            <Order>
+              <SortByLabel>Sort by:</SortByLabel>
+            <SortBySelect name="sorting" value={order} onChange={handleChange}>
+              <option value="default">Default</option>
+              <option value="az">Name Asc.</option>
+              <option value="za">Name Desc.</option>
+              <option value="healthAsc">Health Score Asc.</option>
+              <option value="healthDesc">Health Score Desc.</option>
+            </SortBySelect>
+          <ResetButton onClick={handleResetFilters}>Reset</ResetButton>
+          </Order>
+          </SearchBarMain>
+
+          <AdvancedSearchContainer>
+          <AdvancedSearchLink onClick={handleClick}>
+            Advanced search {<Arrow show-advanced-options={showAdvancedOptions.toString()} />}
+          </AdvancedSearchLink>
+          <AdvancedOptionsContainer show-advanced-options={showAdvancedOptions.toString()}>
+            <SourceSelect
+              name="source"
+              value={source}
+              onChange={handleChange}
+            >
               <option value="">All recipes</option>
               <option value="api">Henry Food recipes</option>
               <option value="db">My recipes</option>
-            </select>
-          </div>
-          <div>
-            {diets.map((diet, index) => (
-              <label key={index}>
-                <input
-                  key={index}
-                  type="checkbox"
-                  value={diet}
-                  checked={dietsState[diet] || false}
-                  onChange={handleChange}
-                />
-                {diet.charAt(0).toUpperCase() + diet.slice(1)}
-              </label>
-            ))}
-          </div>
-          <select name="sorting" value={order} onChange={handleChange}>
-            <option value="default">Default</option>
-            <option value="az">A to Z</option>
-            <option value="za">Z to A</option>
-            <option value="healthAsc">Health Score Asc.</option>
-            <option value="healthDesc">Health Score Desc.</option>
-          </select>
-          <button onClick={handleResetFilters}>Reset all fields</button>
-        </>
-      )}
-    </div>
+            </SourceSelect>
+            <CheckboxContainer>
+              {diets.map((diet, index) => (
+                <CheckboxLabel key={index}>
+                  <CheckboxInput
+                    key={index}
+                    type="checkbox"
+                    value={diet}
+                    checked={dietsState[diet] || false}
+                    onChange={handleChange}
+                  />
+                  {diet.charAt(0).toUpperCase() + diet.slice(1)}
+                </CheckboxLabel>
+              ))}
+            </CheckboxContainer>
+          </AdvancedOptionsContainer>
+        </AdvancedSearchContainer>
+      </SearchBarContainer>
+    )}
+  </>
   );
 };
 

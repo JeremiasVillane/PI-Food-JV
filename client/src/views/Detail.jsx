@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getAllRecipes, getDiets, getRecipeDetail } from "../redux/actions";
+import { DetailContainer, DetailTitle, DetailImage, DetailHealthScore, DetailDiets, DetailSummary, DetailSteps, DetailStepList, DetailInfo, DetailMain, DetailSummaryLabel } from "../styles/StyledDetail.styled";
 
 const Detail = ({ handleDiet }) => {
   const { id } = useParams();
@@ -10,10 +11,8 @@ const Detail = ({ handleDiet }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    !recipesGlobal.length &&
-    dispatch(getAllRecipes());
-    !dietsGlobal.length &&
-    dispatch(getDiets())
+    !recipesGlobal.length && dispatch(getAllRecipes());
+    !dietsGlobal.length && dispatch(getDiets());
   }, [dispatch]);
 
   useEffect(() => {
@@ -30,40 +29,49 @@ const Detail = ({ handleDiet }) => {
   //   const regex = /<a href="https:\/\/spoonacular\.com\/recipes\/.+?-(\d+)">(.+?)<\/a>/g;
   //   const matches = summary.matchAll(regex);
   //   let modifiedText = summary;
-  
+
   //   for (const match of matches) {
   //     const [fullMatch, id, linkText] = match;
   //     const link = `/detail/${id}`;
   //     const replacedText = `<Link to="${link}">${linkText}</Link>`;
   //     modifiedText = modifiedText.replace(fullMatch, replacedText);
   //   }
-  
+
   //   return modifiedText;
   // };
 
   return (
-    <div>
-      <h1>{title}</h1>
-      <img src={image} alt={title} />
-      <p>{healthScore}</p>
-      {diets &&
-        diets.map((diet, index) => (
-          <button key={index} onClick={handleDiet}>
-            {diet}
-          </button>
-        ))}
-      <p>
-        <span dangerouslySetInnerHTML={{ __html: summary }} />
-      </p>
-      <section>Steps:</section>
+    <DetailContainer>
+      <DetailTitle>{title}</DetailTitle>
+      <DetailInfo>
+        <DetailMain>
+          <DetailImage src={image} alt={title} />
+          <DetailHealthScore><strong>Health Score:</strong> {healthScore}</DetailHealthScore>
+          <DetailDiets>
+            {diets &&
+              diets.map((diet, index) => (
+                <button key={index} onClick={handleDiet}>
+                  {diet}
+                </button>
+              ))}
+          </DetailDiets>
+        </DetailMain>
+        <DetailSummary>
+          <DetailSummaryLabel>Summary:</DetailSummaryLabel>
+          <span dangerouslySetInnerHTML={{ __html: summary }} />
+        </DetailSummary>
+      </DetailInfo>
+      <div>
+      <DetailSteps>Steps:</DetailSteps>
       {steps && (
-        <ol>
+        <DetailStepList>
           {steps.map((step, index) => (
             <li key={index}>{step.step}</li>
           ))}
-        </ol>
+        </DetailStepList>
       )}
-    </div>
+      </div>
+    </DetailContainer>
   );
 };
 

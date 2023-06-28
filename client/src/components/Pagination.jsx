@@ -1,13 +1,13 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { changePage } from '../redux/actions';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { changePage } from "../redux/actions";
+import { StyledPagination, PaginationButton } from "../styles/StyledPagination.styled";
 
 const Pagination = () => {
   const dispatch = useDispatch();
   const currentPage = useSelector((state) => state.currentPage);
-  const totalPages = useSelector(
-    (state) =>
-      Math.ceil(state.filteredRecipes.length / state.elementsPerPage)
+  const totalPages = useSelector((state) =>
+    Math.ceil(state.filteredRecipes.length / state.elementsPerPage)
   );
 
   const handlePageChange = (pageNumber) => {
@@ -18,34 +18,34 @@ const Pagination = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
       pageNumbers.push(
-        <button
+        <PaginationButton
           key={i}
           onClick={() => handlePageChange(i - 1)}
-          className={currentPage === i - 1 ? 'active' : ''}
+          is-active={(currentPage === i - 1).toString()}
         >
           {i}
-        </button>
+        </PaginationButton>
       );
     }
     return pageNumbers;
   };
 
   return (
-    <div style={{position: "sticky", top: "133px" }}>
-      <button
+    <StyledPagination>
+      <PaginationButton
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 0}
       >
         &lt; Prev
-      </button>
+      </PaginationButton>
       {generatePageNumbers()}
-      <button
+      <PaginationButton
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages - 1}
       >
         Next &gt;
-      </button>
-    </div>
+      </PaginationButton>
+    </StyledPagination>
   );
 };
 
