@@ -37,9 +37,10 @@ export const FormLabel = styled.h3`
 
   span {
     font-size: 18px;
-    padding: 3px;
-    margin: 3px;
-    border: 3px solid #416450;
+    color: #fff;
+    padding: 6px;
+    margin: 4px;
+    background-color: #57b756;
     border-radius: 50%;
   }
 `;
@@ -92,6 +93,11 @@ export const FormButton = styled.button`
   &:hover {
     background-color: #416450;
     color: white;
+  }
+
+  &:active {
+    background: gray;
+    color: #f0f0f0;
   }
 
   &:disabled {
@@ -163,5 +169,27 @@ export const FormImageInput = styled.input`
 
   @media (max-width: 768px) {
     font-size: 14px;
+  }
+`;
+
+export const ErrorBubble = styled.span`
+  width: 333px;
+  height: 60px;
+  background: #db3820;
+  color: white;
+  padding: 9px;
+  position: relative;
+  border-radius: 10px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 17px;
+    width: 0;
+    height: 0;
+    border-left: 13px solid transparent;
+    border-right: 13px solid transparent;
+    border-bottom: 26px solid #db3820;
   }
 `;

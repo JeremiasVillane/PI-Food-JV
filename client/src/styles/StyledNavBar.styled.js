@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export const NavbarContainer = styled.nav`
   position: sticky;
@@ -10,14 +10,22 @@ export const NavbarContainer = styled.nav`
   background-color: #263A29;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  transition: 0.15s all ease-in-out;
 
   @media (min-width: 700px) {
     height: 80px;
   }
+  
+  &[scrolled="true"] {
+    height: 66px;;
+  }
 
   &[extend-navbar="true"] {
     height: 100vh;
+    justify-content: start;
   }
+
 `;
 
 export const LeftContainer = styled.div`
@@ -44,19 +52,31 @@ export const NavbarLinkContainer = styled.div`
   display: flex;
 `;
 
-export const NavbarLink = styled(Link)`
+export const NavbarLink = styled(NavLink)`
   color: white;
   font-size: x-large;
   font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
-  margin: 10px;
+  margin: 3px;
+  padding: 26px 12px;
+  white-space: nowrap;
+  transition: 0.15s all ease-in-out;
+
+  &.active {
+    background-color: #41644a;
+  }
+
+  &[scrolled="true"] {
+    font-size: medium;
+    padding: 24px 10px;
+  }
 
   @media (max-width: 700px) {
     display: none;
   }
 `;
 
-export const NavbarLinkExtended = styled(Link)`
+export const NavbarLinkExtended = styled(NavLink)`
   color: white;
   font-size: x-large;
   font-family: Arial, Helvetica, sans-serif;

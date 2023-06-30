@@ -9,7 +9,7 @@ export const Recipe = styled.article`
   padding: 5px;
   margin: 33px;
   border: 4px solid lightgreen;
-  cursor: pointer;
+  cursor: default;
   background-color: #f2e3db;
   display: flex;
   flex-direction: column;
@@ -48,6 +48,35 @@ export const Frame = styled.div`
 
   img {
     max-height: 222px;
+  }
+
+  button {
+    transition: 0.15s all ease-in-out;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 27px;
+    height: 27px;
+    border: none;
+    border-radius: 50%;
+    background-color: #db3820;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #e71e00;
+      transform: scale(1.05)
+    }
+
+    &:active {
+      background-color: #db3820;
+      transform: scale(1);
+    }
   }
 `;
 
@@ -96,6 +125,10 @@ export const RecipeTitle = styled.div`
       height: 5px;
       width: 55px;
       background-color: #41644a;
+    }
+
+    &:hover {
+      color: #416466;
     }
   }
 `;

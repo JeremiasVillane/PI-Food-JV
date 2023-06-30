@@ -24,10 +24,10 @@ module.exports = async (req, res) => {
         }
       })
       .catch((error) => {
-        return { error: "No results" };
+        return { error: error.message };
       });
 
-    if (!results) return res.status(400).json({ error: "No results" });
+    if (!results) return res.status(400).json({ error: "No recipes found" });
 
     res.status(200).json(results);
   } catch (error) {

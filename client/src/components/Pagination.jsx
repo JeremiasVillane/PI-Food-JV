@@ -12,6 +12,7 @@ const Pagination = () => {
 
   const handlePageChange = (pageNumber) => {
     dispatch(changePage(pageNumber));
+    window.scrollTo(0, 0);
   };
 
   const generatePageNumbers = () => {

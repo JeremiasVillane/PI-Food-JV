@@ -6,7 +6,7 @@ module.exports = (recipes, diets) => {
     );
 
     if (!filteredRecipes.length) {
-      return { error: "Nothing found" };
+      return { error: "No recipes found" };
     }
     return filteredRecipes;
   }
@@ -15,7 +15,7 @@ module.exports = (recipes, diets) => {
   );
 
   if (!filteredRecipes.length) {
-    return { error: "Nothing found" };
+    return { error: "No recipes found" };
   }
   return filteredRecipes;
 };

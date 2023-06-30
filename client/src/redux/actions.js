@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   CHANGE_PAGE,
+  DELETE_RECIPE,
   ERROR,
   FILTERING,
   GET_ALL_RECIPES,
@@ -8,6 +9,7 @@ import {
   GET_RECIPE_DETAIL,
   NEW_RECIPE,
   RESET_DETAIL,
+  RESET_FILTERS,
   SORTING,
 } from "./action-types";
 
@@ -49,6 +51,21 @@ export const resetDetail = () => {
   };
 };
 
+export const deleteRecipe = (id) => {
+  isFinite(id) && alert("That recipe can't be removed");
+  return async (dispatch) => {
+    try {
+      const apiResponse = await axios.delete(`/recipes/${id}`);
+      dispatch({ type: DELETE_RECIPE, payload: id });
+      alert(apiResponse.data.message);
+    } catch (error) {
+      error.response?.data?.error
+      ? alert(error.response.data.error)
+      : alert("The recipe couldn't be removed");
+    }
+  }
+};
+
 export const filtering = (filters) => {
   return async (dispatch) => {
     try {
@@ -66,13 +83,22 @@ export const filtering = (filters) => {
       if (recipes.error) return window.alert(recipes.error);
       dispatch({ type: FILTERING, payload: recipes });
     } catch (error) {
-      return dispatch({
-        type: ERROR,
-        payload: error.message,
-      });
+      error.response?.data?.error
+      ? alert(error.response.data.error)
+      : alert("No recipes found");
+      // return dispatch({
+      //   type: ERROR,
+      //   payload: error.message,
+      // });
     }
   };
 };
+
+export const resetFilters = () => {
+  return {
+    type: RESET_FILTERS,
+  }
+}
 
 export const sorting = (order) => {
   return {
@@ -108,14 +134,15 @@ export const newRecipe = (recipeData) => {
       .filter(([_, selected]) => selected === true)
       .map(([dietName, _]) => dietName);
       recipeData.diets = dietNames;
-
-      // if (!recipeData.image.length) delete recipeData.image;
       
       const apiResponse = await axios.post("/recipes", recipeData);
       const createdRecipe = apiResponse.data;
 
       dispatch({ type: NEW_RECIPE, payload: createdRecipe[0] });
     } catch (error) {
+      error.response?.data?.error
+      ? alert(error.response.data.error)
+      : alert("The recipe couldn't be created");
       return dispatch({
         type: ERROR,
         payload: error.message,

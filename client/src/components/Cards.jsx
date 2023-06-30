@@ -1,4 +1,3 @@
-// import { useEffect } from "react";
 import { PaginationContainer, RecipeContainer } from "../styles/StyledCards.styled";
 import Card from "./Card";
 import Pagination from "./Pagination";

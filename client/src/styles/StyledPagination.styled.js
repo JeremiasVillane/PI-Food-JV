@@ -48,13 +48,13 @@ export const PaginationButton = styled.button`
   cursor: pointer;
 
   &[is-active="true"] {
-    background: #41644a;
-    color: #f5f5f5;
+    background: lightblue;
+    color: #263a29;
   }
 
   &:hover {
-    background: #41644a;
-    color: #f5f5f5;
+    background: #416450;
+    color: white;
   }
 
   &:active {

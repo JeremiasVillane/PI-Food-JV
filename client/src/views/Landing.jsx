@@ -5,7 +5,8 @@ import { getAllRecipes, getDiets } from '../redux/actions';
 
 const Landing = () => {
   const dispatch = useDispatch();
-  const { diets, recipes } = useSelector((state) => state);
+  const diets = useSelector((state) => state.diets);
+  const recipes = useSelector((state) => state.recipes);
 
   useEffect(() => {
     !recipes.length &&

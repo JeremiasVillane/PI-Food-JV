@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import {
   NavbarContainer,
@@ -15,17 +14,31 @@ import {
 
 const NavBar = () => {
   const [extendNavbar, setExtendNavbar] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 0;
+      setScrolled(isScrolled);
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+  
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const handleClick = () => setExtendNavbar((curr) => !curr);
 
   return (
-    <NavbarContainer extend-navbar={extendNavbar.toString()} >
+    <NavbarContainer extend-navbar={extendNavbar.toString()} scrolled={scrolled.toString()}>
       <NavbarInnerContainer>
         <LeftContainer>
           <NavbarLinkContainer>
-            <NavbarLink to="/home"> Home</NavbarLink>
-            <NavbarLink to="/new"> New Recipe</NavbarLink>
-            <NavbarLink to="/about"> About</NavbarLink>
+            <NavbarLink to="/home" active-classname="active" scrolled={scrolled.toString()}> Home</NavbarLink>
+            <NavbarLink to="/new" active-classname="active" scrolled={scrolled.toString()}> New Recipe</NavbarLink>
+            <NavbarLink to="/about" active-classname="active" scrolled={scrolled.toString()}> About</NavbarLink>
             <OpenLinksButton onClick={handleClick} >
               {extendNavbar ? <>&#10005;</> : <> &#8801;</>}
             </OpenLinksButton>

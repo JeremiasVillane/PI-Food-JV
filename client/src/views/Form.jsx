@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import validateField from "../helpers/validateField";
 import { getAllRecipes, getDiets, newRecipe, resetDetail } from "../redux/actions";
-import { FormContainer, FormTitle, FormField, FormLabel, FormInput, FormTextarea, FormButton, FormStepList, FormStepInput, FormCheckboxContainer, FormCheckboxLabel, FormRangeInput, FormImageInput } from "../styles/StyledForm.styled";
+import { FormContainer, FormTitle, FormField, FormLabel, FormInput, FormTextarea, FormButton, FormStepList, FormStepInput, FormCheckboxContainer, FormCheckboxLabel, FormRangeInput, FormImageInput, ErrorBubble } from "../styles/StyledForm.styled";
 
 const Form = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { recipes, diets, detail } = useSelector((state) => state);
+  const recipes = useSelector((state) => state.recipes);
+  const diets = useSelector((state) => state.diets);
+  const detail = useSelector((state) => state.detail);
   const [isRecipeCreated, setIsRecipeCreated] = useState(false);
   const [recipeData, setRecipeData] = useState({
     title: "",
@@ -20,6 +23,10 @@ const Form = () => {
   const [errors, setErrors] = useState({title: "", summary: ""});
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     dispatch(resetDetail());
   }, [dispatch]);
 
@@ -30,8 +37,10 @@ const Form = () => {
 
   useEffect(() => {
     if (isRecipeCreated) {
-      window.alert("Recipe successfully created");
-      navigate(`/detail/${detail.id}`);
+      if (detail.id) {
+        window.alert("Recipe successfully created");
+        navigate(`/detail/${detail.id}`);
+      } else return;
     }
   }, [isRecipeCreated, navigate, detail.id]);
 
@@ -125,7 +134,7 @@ const Form = () => {
         healthScore: 50,
         image: "",
       })
-      dispatch(getDiets())
+      // dispatch(getDiets())
       dispatch(getAllRecipes());
     });
   };
@@ -136,19 +145,6 @@ const Form = () => {
   //     .then((res) => navigate(`/recipes/${res.data.id}`))
   //     .catch((error) => console.error("Error:", error));
   // };
-
-  const validateField = (input) => {
-    let { title, summary } = input;
-    let errors = {};
-
-    if (!title.length) errors.title = "The recipe must have a title";
-    if (title.length > 50) errors.title = "The recipe title cannot be longer than 50 characters";
-    if (!summary.length) errors.summary = "The recipe must have a summary";
-    if (summary.length > 500) errors.summary = "The summary cannot be longer than 500 characters";
-
-    return errors;
-  };
-  // const isButtonDisabled = Object.keys(errors).length > 0;
 
   return (
     <FormContainer>
@@ -167,7 +163,7 @@ const Form = () => {
             />
           </FormField>
           {errors.title && (
-            <span>{errors.title}</span>
+            <ErrorBubble>{errors.title}</ErrorBubble>
           )}
           <FormField>
             <FormLabel>Sumary:</FormLabel>
@@ -182,7 +178,7 @@ const Form = () => {
             />
           </FormField>
           {errors.summary && (
-            <span>{errors.summary}</span>
+            <ErrorBubble>{errors.summary}</ErrorBubble>
           )}
           <FormField>
             <FormLabel>Steps:</FormLabel>
@@ -252,6 +248,10 @@ const Form = () => {
               placeholder="URL for your image..."
             />
           </FormField>
+          {errors.image && (
+            <ErrorBubble>{errors.image}</ErrorBubble>
+          )}
+          <br/>
           <FormButton onClick={handleSubmit} disabled={Object.keys(errors).length > 0}>Create</FormButton>
         </form>
       </div>

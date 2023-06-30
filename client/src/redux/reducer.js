@@ -1,8 +1,9 @@
-import { CHANGE_PAGE, ERROR, FILTERING, GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, NEW_RECIPE, RESET_DETAIL, SORTING, } from "./action-types";
+import { CHANGE_PAGE, DELETE_RECIPE, ERROR, FILTERING, GET_ALL_RECIPES, GET_DIETS, GET_RECIPE_DETAIL, NEW_RECIPE, RESET_DETAIL, RESET_FILTERS, SORTING, } from "./action-types";
 
 const initialState = {
   recipes: [],
   filteredRecipes: [],
+  unorderedRecipes: [],
   detail: [],
   diets: [],
   currentPage: 0,
@@ -27,13 +28,22 @@ const reducer = (state = initialState, { type, payload }) => {
       // recipes: [payload, ...state.recipes ],
       // filteredRecipes: state.recipes,
       detail: payload };
+    case DELETE_RECIPE:
+      const updatedRecipes = state.recipes.filter((recipe) => recipe.id !== payload);
+      return {
+        ...state,
+        recipes: updatedRecipes,
+        filteredRecipes: updatedRecipes,
+        unorderedRecipes: updatedRecipes,
+      }
     case FILTERING:
       return { ...state,
-      filteredRecipes: payload };
+      filteredRecipes: payload,
+      unorderedRecipes: payload };
     case SORTING:
       const recipesCopy = [...state?.filteredRecipes];
       let sortedRecipes;
-      payload === "default" && (sortedRecipes = recipesCopy);
+      payload === "default" && (sortedRecipes = [...state.unorderedRecipes]);
       // localCompare() ordena teniendo en cuenta los espacios y caracteres especiales
       payload === "az" 
         && (sortedRecipes = recipesCopy
@@ -49,6 +59,10 @@ const reducer = (state = initialState, { type, payload }) => {
           .sort((a, b) => b.healthScore - a.healthScore));
       return { ...state,
       filteredRecipes: sortedRecipes };
+    case RESET_FILTERS:
+      return { ...state,
+      filteredRecipes: [...state.recipes],
+      unorderedRecipes: [...state.recipes] };
     case GET_DIETS:
       return { ...state,
       diets: payload };

@@ -8,6 +8,8 @@ const Detail = ({ handleDiet }) => {
   const { id } = useParams();
   const recipesGlobal = useSelector((state) => state.recipes);
   const dietsGlobal = useSelector((state) => state.diets);
+  const recipe = useSelector((state) => state.detail);
+  const { title, image, healthScore, diets, summary, steps } = recipe;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,27 +20,6 @@ const Detail = ({ handleDiet }) => {
   useEffect(() => {
     dispatch(getRecipeDetail(id));
   }, [dispatch]);
-
-  const recipe = useSelector((state) => state.detail);
-  const { title, image, healthScore, diets, summary, steps } = recipe;
-
-  // const replaceLinksInSummary = () => {
-  //   if (!summary) {
-  //     return "";
-  //   }
-  //   const regex = /<a href="https:\/\/spoonacular\.com\/recipes\/.+?-(\d+)">(.+?)<\/a>/g;
-  //   const matches = summary.matchAll(regex);
-  //   let modifiedText = summary;
-
-  //   for (const match of matches) {
-  //     const [fullMatch, id, linkText] = match;
-  //     const link = `/detail/${id}`;
-  //     const replacedText = `<Link to="${link}">${linkText}</Link>`;
-  //     modifiedText = modifiedText.replace(fullMatch, replacedText);
-  //   }
-
-  //   return modifiedText;
-  // };
 
   return (
     <DetailContainer>
@@ -58,7 +39,9 @@ const Detail = ({ handleDiet }) => {
         </DetailMain>
         <DetailSummary>
           <DetailSummaryLabel>Summary:</DetailSummaryLabel>
-          <span dangerouslySetInnerHTML={{ __html: summary }} />
+          <span
+      dangerouslySetInnerHTML={{__html: summary}}
+    />
         </DetailSummary>
       </DetailInfo>
       <div>

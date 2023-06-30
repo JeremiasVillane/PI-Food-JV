@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { filtering } from "../redux/actions";
-import { Frame, Recipe, RecipeDiets, RecipeInfo, RecipeTitle, HealthScore, StyledLink, Arrow } from "../styles/Recipe.styled";
+import { deleteRecipe, filtering } from "../redux/actions";
+import {
+  Frame,
+  Recipe,
+  RecipeDiets,
+  RecipeInfo,
+  RecipeTitle,
+  HealthScore,
+  StyledLink,
+  Arrow,
+} from "../styles/StyledCard.styled.js";
 
 const Card = ({ id, title, image, healthScore, diets }) => {
   const dispatch = useDispatch();
@@ -23,14 +32,23 @@ const Card = ({ id, title, image, healthScore, diets }) => {
     }
   };
 
+  const handleDelete = () => {
+    dispatch(deleteRecipe(id));
+  }
+
   const handleMouseEnter = () => setShowTags(true);
   const handleMouseLeave = () => setShowTags(false);
   const handleTouch = () => setShowTags((curr) => !curr);
 
   return (
-    <Recipe onMouseEnter={handleMouseEnter} onTouchStart={handleTouch} onMouseLeave={handleMouseLeave}>
+    <Recipe
+      onMouseEnter={handleMouseEnter}
+      onTouchStart={handleTouch}
+      onMouseLeave={handleMouseLeave}
+    >
       <Frame>
         <img src={image} alt={title} />
+        {!isFinite(id) && <button onClick={handleDelete}>&#10005;</button>}
         <HealthScore>{healthScore}</HealthScore>
       </Frame>
       <RecipeInfo>
@@ -40,10 +58,10 @@ const Card = ({ id, title, image, healthScore, diets }) => {
           </StyledLink>
         </RecipeTitle>
         <p>
-          Related diets 
-          {<Arrow data-showtags={showTags ? "true" : "false"} />}
+          Related diets
+          <Arrow data-showtags={showTags.toString()} />
         </p>
-        <RecipeDiets data-showtags={showTags ? "true" : "false"}>
+        <RecipeDiets data-showtags={showTags.toString()}>
           {diets &&
             diets.map((diet, index) => (
               <button key={index} onClick={handlefilter}>

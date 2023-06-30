@@ -8,9 +8,6 @@ export const RecipeContainer = styled.div`
 `;
 
 export const PaginationContainer = styled.div`
-  /* position: sticky;
-  top: 120px;
-  z-index: 100; */
   width: 100%;
   display: flex;
   justify-content: center;

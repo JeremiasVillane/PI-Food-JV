@@ -48,7 +48,7 @@ module.exports = async (name) => {
 
   // Si recipes está vacío no hubo coincidencias
   if (!recipes.length) {
-    return { error: `No matches for ${name}` };
+    return { error: `No recipe named "${name}" was found` };
   }
 
   // Mapeo las recetas y las retorno
