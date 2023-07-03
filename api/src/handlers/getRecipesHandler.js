@@ -24,13 +24,13 @@ module.exports = async (req, res) => {
         }
       })
       .catch((error) => {
-        return { error: error.message };
+        return { error: "There was a problem retrieving the content, please try again later..." };
       });
 
     if (!results) return res.status(400).json({ error: "No recipes found" });
 
     res.status(200).json(results);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: "There was a problem retrieving the content, please try again later..." });
   }
 };

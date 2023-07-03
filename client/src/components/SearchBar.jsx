@@ -27,8 +27,8 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
-  const diets = useSelector((state) => state.diets);
-  const filteredRecipes = useSelector((state) => state.filteredRecipes);
+  const diets = useSelector((state) => state.recipes.diets);
+  const filteredRecipes = useSelector((state) => state.recipes.filteredRecipes);
   const [search, setSearch] = useState("");
   const [source, setSource] = useState("");
   const [dietsState, setDietsState] = useState({});
@@ -38,7 +38,7 @@ const SearchBar = () => {
     source: "",
     diets: {},
   });
-  
+
   useEffect(() => {
     if (
       search === "" &&
@@ -81,7 +81,6 @@ const SearchBar = () => {
       if (order) dispatch(sorting(order));
     });
     dispatch(changePage(0));
-    // if (pathname !== "/home") navigate("/home");
     window.scrollTo(0, 0);
   };
 
@@ -96,14 +95,8 @@ const SearchBar = () => {
     setSearch("");
     setSource("");
     setOrder("");
-    // const filters = {
-    //   search: "",
-    //   source: "",
-    //   diets: {},
-    // };
-    // setFilters(filters);
-    // dispatch(filtering(filters));
     dispatch(resetFilters());
+    dispatch(changePage(0));
     window.scrollTo(0, 0);
   };
 
@@ -116,11 +109,11 @@ const SearchBar = () => {
       const isScrolled = window.scrollY > 0;
       setScrolled(isScrolled);
     };
-  
-    window.addEventListener('scroll', handleScroll);
-  
+
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -153,31 +146,34 @@ const SearchBar = () => {
                 <option value="healthAsc">Health Score Asc.</option>
                 <option value="healthDesc">Health Score Desc.</option>
               </SortBySelect>
-              <SearchBarButton onClick={handleResetFilters}>Reset</SearchBarButton>
+              <SearchBarButton onClick={handleResetFilters}>
+                Reset
+              </SearchBarButton>
             </Order>
           </SearchBarMain>
 
           <AdvancedSearchContainer>
             <AdvancedSearchLink onClick={handleClick}>
-              Advanced search 
+              Advanced search
               {<Arrow show-advanced-options={showAdvancedOptions.toString()} />}
             </AdvancedSearchLink>
             <AdvancedOptionsContainer
-              show-advanced-options={showAdvancedOptions.toString()} scrolled={scrolled.toString()}
+              show-advanced-options={showAdvancedOptions.toString()}
+              scrolled={scrolled.toString()}
             >
               <SourceContainer>
-              <SortByLabel>Source:</SortByLabel>
-              <SourceSelect
-                name="source"
-                value={source}
-                onChange={handleChange}
+                <SortByLabel>Source:</SortByLabel>
+                <SourceSelect
+                  name="source"
+                  value={source}
+                  onChange={handleChange}
                 >
-                <option value="">All recipes</option>
-                <option value="api">Henry Food recipes</option>
-                <option value="db">My recipes</option>
-              </SourceSelect>
-              &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;
-              <SortByLabel>Filter by diets:</SortByLabel>
+                  <option value="">All recipes</option>
+                  <option value="api">Food World recipes</option>
+                  <option value="db">My recipes</option>
+                </SourceSelect>
+                &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;
+                <SortByLabel>Filter by diets:</SortByLabel>
               </SourceContainer>
               <CheckboxContainer>
                 {diets.map((diet, index) => (

@@ -3,7 +3,6 @@ import Card from "./Card";
 import Pagination from "./Pagination";
 
 const Cards = ({ displayedRecipes }) => {
-
   return (
     <RecipeContainer>
       <PaginationContainer>
@@ -11,7 +10,6 @@ const Cards = ({ displayedRecipes }) => {
       </PaginationContainer>
       {displayedRecipes.map((recipe) => {
         const { id, title, image, diets, healthScore } = recipe;
-
         return (
           <Card
             id={id}

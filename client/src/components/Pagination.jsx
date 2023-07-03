@@ -5,9 +5,9 @@ import { StyledPagination, PaginationButton } from "../styles/StyledPagination.s
 
 const Pagination = () => {
   const dispatch = useDispatch();
-  const currentPage = useSelector((state) => state.currentPage);
+  const currentPage = useSelector((state) => state.pagination.currentPage);
   const totalPages = useSelector((state) =>
-    Math.ceil(state.filteredRecipes.length / state.elementsPerPage)
+    Math.ceil(state.recipes.filteredRecipes.length / state.pagination.elementsPerPage)
   );
 
   const handlePageChange = (pageNumber) => {

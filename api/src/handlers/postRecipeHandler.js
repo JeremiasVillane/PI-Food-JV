@@ -14,7 +14,8 @@ module.exports = async (req, res) => {
     );
     res.status(201).json(newRecipe);
   } catch (error) {
-    if (error.name === "SequelizeUniqueConstraintError") 
-    return res.status(400).json({ error: "That recipe title already exist" });
+    if (error.name === "SequelizeUniqueConstraintError") { 
+    return res.status(400).json({ error: "That recipe title already exist" })};
+    return res.status(400).json({ error: "The recipe couldn't be created" })
   }
 };

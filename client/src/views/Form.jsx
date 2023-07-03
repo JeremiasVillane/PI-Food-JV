@@ -2,15 +2,36 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import validateField from "../helpers/validateField";
-import { getAllRecipes, getDiets, newRecipe, resetDetail } from "../redux/actions";
-import { FormContainer, FormTitle, FormField, FormLabel, FormInput, FormTextarea, FormButton, FormStepList, FormStepInput, FormCheckboxContainer, FormCheckboxLabel, FormRangeInput, FormImageInput, ErrorBubble } from "../styles/StyledForm.styled";
+import {
+  getAllRecipes,
+  getDiets,
+  newRecipe,
+  resetDetail,
+  setAlert,
+} from "../redux/actions";
+import {
+  FormContainer,
+  FormTitle,
+  FormField,
+  FormLabel,
+  FormInput,
+  FormTextarea,
+  FormButton,
+  FormStepList,
+  FormStepInput,
+  FormCheckboxContainer,
+  FormCheckboxLabel,
+  FormRangeInput,
+  FormImageInput,
+  ErrorBubble,
+} from "../styles/StyledForm.styled";
 
 const Form = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const recipes = useSelector((state) => state.recipes);
-  const diets = useSelector((state) => state.diets);
-  const detail = useSelector((state) => state.detail);
+  const recipes = useSelector((state) => state.recipes.recipes);
+  const diets = useSelector((state) => state.recipes.diets);
+  const detail = useSelector((state) => state.recipes.detail);
   const [isRecipeCreated, setIsRecipeCreated] = useState(false);
   const [recipeData, setRecipeData] = useState({
     title: "",
@@ -20,7 +41,7 @@ const Form = () => {
     healthScore: 50,
     image: "",
   });
-  const [errors, setErrors] = useState({title: "", summary: ""});
+  const [errors, setErrors] = useState({ title: "", summary: "" });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -38,7 +59,7 @@ const Form = () => {
   useEffect(() => {
     if (isRecipeCreated) {
       if (detail.id) {
-        window.alert("Recipe successfully created");
+        dispatch(setAlert({ success: "Recipe successfully created" }));
         navigate(`/detail/${detail.id}`);
       } else return;
     }
@@ -51,10 +72,12 @@ const Form = () => {
         ...recipeData,
         [name]: value,
       });
-      setErrors(validateField({
-        ...recipeData,
-        [name]: value,
-      }));
+      setErrors(
+        validateField({
+          ...recipeData,
+          [name]: value,
+        })
+      );
     } else {
       setRecipeData((prevRecipeData) => {
         const updatedDiets = { ...prevRecipeData.diets };
@@ -133,7 +156,7 @@ const Form = () => {
         diets: [],
         healthScore: 50,
         image: "",
-      })
+      });
       // dispatch(getDiets())
       dispatch(getAllRecipes());
     });
@@ -162,9 +185,7 @@ const Form = () => {
               autoFocus={true}
             />
           </FormField>
-          {errors.title && (
-            <ErrorBubble>{errors.title}</ErrorBubble>
-          )}
+          {errors.title && <ErrorBubble>{errors.title}</ErrorBubble>}
           <FormField>
             <FormLabel>Sumary:</FormLabel>
             <FormTextarea
@@ -177,9 +198,7 @@ const Form = () => {
               cols="60"
             />
           </FormField>
-          {errors.summary && (
-            <ErrorBubble>{errors.summary}</ErrorBubble>
-          )}
+          {errors.summary && <ErrorBubble>{errors.summary}</ErrorBubble>}
           <FormField>
             <FormLabel>Steps:</FormLabel>
             <FormButton
@@ -227,7 +246,9 @@ const Form = () => {
             </div>
           </FormField>
           <FormField>
-            <FormLabel>Health Score: <span>{recipeData.healthScore}</span></FormLabel>
+            <FormLabel>
+              Health Score: <span>{recipeData.healthScore}</span>
+            </FormLabel>
             <FormRangeInput
               name="healthScore"
               value={recipeData.healthScore}
@@ -248,11 +269,14 @@ const Form = () => {
               placeholder="URL for your image..."
             />
           </FormField>
-          {errors.image && (
-            <ErrorBubble>{errors.image}</ErrorBubble>
-          )}
-          <br/>
-          <FormButton onClick={handleSubmit} disabled={Object.keys(errors).length > 0}>Create</FormButton>
+          {errors.image && <ErrorBubble>{errors.image}</ErrorBubble>}
+          <br />
+          <FormButton
+            onClick={handleSubmit}
+            disabled={Object.keys(errors).length > 0}
+          >
+            Create
+          </FormButton>
         </form>
       </div>
     </FormContainer>

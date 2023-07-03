@@ -16,16 +16,6 @@ export const StyledPagination = styled.nav`
     color: #41644A;
     cursor: pointer;
 
-    /* &:hover {
-      background: #41644A;
-      color: #f5f5f5;
-    }
-
-    &:active {
-      background: gray;
-      color: #f0f0f0;
-    } */
-
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;

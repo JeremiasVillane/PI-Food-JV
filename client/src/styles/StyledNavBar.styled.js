@@ -18,7 +18,7 @@ export const NavbarContainer = styled.nav`
   }
   
   &[scrolled="true"] {
-    height: 66px;;
+    height: 66px;
   }
 
   &[extend-navbar="true"] {

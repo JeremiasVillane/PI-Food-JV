@@ -21,25 +21,49 @@ const NavBar = () => {
       const isScrolled = window.scrollY > 0;
       setScrolled(isScrolled);
     };
-  
-    window.addEventListener('scroll', handleScroll);
-  
+
+    window.addEventListener("scroll", handleScroll);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const handleClick = () => setExtendNavbar((curr) => !curr);
 
   return (
-    <NavbarContainer extend-navbar={extendNavbar.toString()} scrolled={scrolled.toString()}>
+    <NavbarContainer
+      extend-navbar={extendNavbar.toString()}
+      scrolled={scrolled.toString()}
+    >
       <NavbarInnerContainer>
         <LeftContainer>
           <NavbarLinkContainer>
-            <NavbarLink to="/home" active-classname="active" scrolled={scrolled.toString()}> Home</NavbarLink>
-            <NavbarLink to="/new" active-classname="active" scrolled={scrolled.toString()}> New Recipe</NavbarLink>
-            <NavbarLink to="/about" active-classname="active" scrolled={scrolled.toString()}> About</NavbarLink>
-            <OpenLinksButton onClick={handleClick} >
+            <NavbarLink
+              to="/home"
+              active-classname="active"
+              scrolled={scrolled.toString()}
+            >
+              {" "}
+              Home
+            </NavbarLink>
+            <NavbarLink
+              to="/new"
+              active-classname="active"
+              scrolled={scrolled.toString()}
+            >
+              {" "}
+              New Recipe
+            </NavbarLink>
+            <NavbarLink
+              to="/about"
+              active-classname="active"
+              scrolled={scrolled.toString()}
+            >
+              {" "}
+              About
+            </NavbarLink>
+            <OpenLinksButton onClick={handleClick}>
               {extendNavbar ? <>&#10005;</> : <> &#8801;</>}
             </OpenLinksButton>
           </NavbarLinkContainer>

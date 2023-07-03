@@ -1,25 +1,27 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getAllRecipes, getDiets } from '../redux/actions';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { getAllRecipes, getDiets } from "../redux/actions";
+import { Button } from "../styles/common/Button";
+import { LandingWrapper } from "../styles/StyledLanding.styled";
 
 const Landing = () => {
   const dispatch = useDispatch();
-  const diets = useSelector((state) => state.diets);
-  const recipes = useSelector((state) => state.recipes);
+  const { diets, recipes } = useSelector((state) => state.recipes);
 
   useEffect(() => {
-    !recipes.length &&
-    dispatch(getAllRecipes());
-    !diets.length &&
-    dispatch(getDiets())
+    !recipes.length && dispatch(getAllRecipes());
+    !diets.length && dispatch(getDiets());
   }, [dispatch]);
   return (
-    <div>
-      <h1>Landing</h1>
-      <Link to="/home"><button>HOME</button></Link>
-    </div>
-  )
-}
+    <LandingWrapper>
+      <h1>Welcome to...</h1>
+      <img src="../src/assets/foodworld-logo.png" alt="Food World" />
+      <Link to="/home">
+        <Button kind="primary">ENTER</Button>
+      </Link>
+    </LandingWrapper>
+  );
+};
 
-export default Landing
+export default Landing;
