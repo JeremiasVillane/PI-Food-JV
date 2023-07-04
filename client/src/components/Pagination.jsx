@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changePage } from "../redux/actions";
 import { StyledPagination, PaginationButton } from "../styles/StyledPagination.styled";

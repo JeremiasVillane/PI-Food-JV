@@ -10,7 +10,9 @@ const Modal = ({ message, mode, handleClose }) => {
           {mode === "error" ? <span>&#x2715;</span> : <span>&#10003;</span>}
           <h1>{mode.toUpperCase()}</h1>
           <p>{message}</p>
-          <Button onClick={handleClose} kind={mode}>Close</Button>
+          <Button onClick={handleClose} kind={mode}>
+            Close
+          </Button>
         </ModalContent>
       </ModalWrapper>
     </>,

@@ -9,6 +9,7 @@ import {
   resetDetail,
   setAlert,
 } from "../redux/actions";
+import { Button } from "../styles/common/Button";
 import {
   FormContainer,
   FormTitle,
@@ -16,7 +17,6 @@ import {
   FormLabel,
   FormInput,
   FormTextarea,
-  FormButton,
   FormStepList,
   FormStepInput,
   FormCheckboxContainer,
@@ -94,13 +94,6 @@ const Form = () => {
     }
   };
 
-  // const handleSteps = (event, index) => {
-  //   const { value } = event.target;
-  //   const updatedSteps = [...steps];
-  //   updatedSteps[index] = { ...updatedSteps[index], step: value };
-  //   setSteps(updatedSteps);
-  // };
-
   const handleSteps = (event, index) => {
     const { value } = event.target;
     const updatedSteps = [...recipeData.steps];
@@ -110,20 +103,6 @@ const Form = () => {
       steps: updatedSteps,
     });
   };
-
-  // const handleAddStep = (event) => {
-  //   event.preventDefault();
-  //   const {value} = event.target;
-  //   const stepNum = steps.length + 1;
-  //   setSteps([
-  //     ...steps,
-  //     {number: stepNum, step: value}
-  //   ])
-  //   setRecipeData({
-  //     ...recipeData,
-  //     steps: [...steps, {number: stepNum, step: value}]
-  //   })
-  // };
 
   const handleAddStep = (event) => {
     event.preventDefault();
@@ -157,17 +136,9 @@ const Form = () => {
         healthScore: 50,
         image: "",
       });
-      // dispatch(getDiets())
       dispatch(getAllRecipes());
     });
   };
-
-  // const handleCreateRecipe = (event) => {
-  //   event.preventDefault();
-  //   dispatch(newRecipe(recipeData))
-  //     .then((res) => navigate(`/recipes/${res.data.id}`))
-  //     .catch((error) => console.error("Error:", error));
-  // };
 
   return (
     <FormContainer>
@@ -201,18 +172,20 @@ const Form = () => {
           {errors.summary && <ErrorBubble>{errors.summary}</ErrorBubble>}
           <FormField>
             <FormLabel>Steps:</FormLabel>
-            <FormButton
+            <Button
+              kind="primary"
               onClick={handleAddStep}
               disabled={recipeData.steps.length === 12}
             >
               Add step
-            </FormButton>
-            <FormButton
+            </Button>
+            <Button
+              kind="primary"
               onClick={handleRemoveStep}
               disabled={!recipeData.steps.length}
             >
               Remove step
-            </FormButton>
+            </Button>
             <FormStepList>
               {recipeData.steps.map((step, index) => (
                 <li key={index}>
@@ -239,7 +212,7 @@ const Form = () => {
                     onChange={handleChange}
                   />
                   <FormCheckboxLabel>
-                    {diet.charAt(0).toUpperCase() + diet.slice(1)}
+                    {diet}
                   </FormCheckboxLabel>
                 </FormCheckboxContainer>
               ))}
@@ -271,12 +244,13 @@ const Form = () => {
           </FormField>
           {errors.image && <ErrorBubble>{errors.image}</ErrorBubble>}
           <br />
-          <FormButton
+          <Button
+            kind="primary"
             onClick={handleSubmit}
             disabled={Object.keys(errors).length > 0}
           >
             Create
-          </FormButton>
+          </Button>
         </form>
       </div>
     </FormContainer>

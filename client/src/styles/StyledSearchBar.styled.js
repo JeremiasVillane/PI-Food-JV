@@ -6,6 +6,29 @@ export const SearchBarContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+
+  &[extend-searchbar="true"] {
+    margin-top: 220%;
+    flex: 70%;
+    display: flex;
+    flex-direction:column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding-left: 5%;
+    margin-left:-100px;
+
+    @media (max-width: 1024px) {
+      margin-top: 150%;
+    }
+    @media (max-width: 900px) {
+      margin-top: 220%;
+    }
+  }
 `;
 
 export const SearchBarMain = styled.div`
@@ -13,12 +36,34 @@ export const SearchBarMain = styled.div`
   flex-direction: row;
   align-items: center;
   margin-right: 10px;
+
+  @media (max-width: 1024px) {
+    width: 10px;
+    justify-content: end;
+    align-items: center;
+    line-height: 66px;
+    flex-wrap: wrap;
+    margin:-100px 0;
+  }
+  
+  @media (max-width: 700px) {
+    width: 10px;
+    justify-content: center;
+    align-items: center;
+    line-height: 66px;
+    flex-wrap: wrap;
+    margin:0;
+  }
 `;
 
 export const Search = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    margin-left: 90px;
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -34,21 +79,6 @@ export const SearchInput = styled.input`
   }
 `;
 
-export const SearchBarButton = styled.button`
-  background-color: lightblue;
-  color: #263a29;
-  border-radius: 5px;
-  border: none;
-  height: 30px;
-  padding: 5px 10px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #416450;
-    color: white;
-  }
-`;
-
 export const Order = styled.div`
   display: flex;
   flex-direction: row;
@@ -57,7 +87,7 @@ export const Order = styled.div`
 
 export const SortByLabel = styled.p`
   color: white;
-  white-space:nowrap;
+  white-space: nowrap;
   padding: 0 6px 0 12px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -93,6 +123,11 @@ export const AdvancedSearchContainer = styled.div`
   flex-direction: row;
   align-items: center;
   transition: 0.15s all ease-in-out;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    margin-top: 120px;
+  }
 `;
 
 export const AdvancedSearchLink = styled.span`
@@ -106,13 +141,17 @@ export const AdvancedSearchLink = styled.span`
   cursor: pointer;
   margin-left: 10px;
   color: white;
+
+  @media (max-width: 1024px) {
+    margin-left: -55px;
+  }
 `;
 
 export const AdvancedOptionsContainer = styled.div`
   position: absolute;
   top: 80px;
   right: 0;
-  background-color: #263A29;
+  background-color: #263a29;
   border-top: 4px solid #41644a;
   color: #fff;
   padding: 10px;
@@ -121,24 +160,33 @@ export const AdvancedOptionsContainer = styled.div`
   /* display: none; */
   transition: 0.15s all ease-in-out;
 
-  &[show-advanced-options="true"] {
-      /* display: block; */
-      transform-origin: top right;
-      transform: scale(1);
+  @media (max-width: 1024px) {
+    top: 330px;
+  }
+  @media (max-width: 900px) {
+    top: 342px;
+  }
+  @media (max-width: 600px) {
+    top: 300px;
+  }
 
-    }
+  &[show-advanced-options="true"] {
+    /* display: block; */
+    transform-origin: top right;
+    transform: scale(1);
+  }
 
   &[scrolled="true"] {
     top: 66px;
-    border-top: 2px solid #41644a
-    }
+    border-top: 2px solid #41644a;
+  }
 `;
 
 export const SourceContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-`
+`;
 
 export const SourceSelect = styled.select`
   /* margin-bottom: 10px; */
@@ -151,6 +199,7 @@ export const CheckboxContainer = styled.div`
 
 export const CheckboxLabel = styled.label`
   font-family: Arial, Helvetica, sans-serif;
+  text-transform: capitalize;
   font-size: small;
   display: flex;
   align-items: center;

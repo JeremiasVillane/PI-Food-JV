@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { changePage, filtering, resetFilters, sorting } from "../redux/actions";
+import { Button } from "../styles/common/Button";
 import {
   SearchBarContainer,
   SearchBarMain,
   Search,
   SearchInput,
-  SearchBarButton,
   Order,
   SortByLabel,
   SortBySelect,
@@ -22,7 +22,7 @@ import {
   Arrow,
 } from "../styles/StyledSearchBar.styled";
 
-const SearchBar = () => {
+const SearchBar = ({extendSearchbar}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -120,7 +120,7 @@ const SearchBar = () => {
   return (
     <>
       {pathname === "/home" && (
-        <SearchBarContainer>
+        <SearchBarContainer extend-searchbar={extendSearchbar.toString()}>
           <SearchBarMain>
             <Search>
               <SearchInput
@@ -131,7 +131,7 @@ const SearchBar = () => {
                 onKeyPress={handleKeypress}
                 placeholder="Search recipes..."
               />
-              <SearchBarButton onClick={handleSearch}>Search</SearchBarButton>
+              <Button onClick={handleSearch}>Search</Button>
             </Search>
             <Order>
               <SortByLabel>Sort by:</SortByLabel>
@@ -146,9 +146,9 @@ const SearchBar = () => {
                 <option value="healthAsc">Health Score Asc.</option>
                 <option value="healthDesc">Health Score Desc.</option>
               </SortBySelect>
-              <SearchBarButton onClick={handleResetFilters}>
+              <Button onClick={handleResetFilters}>
                 Reset
-              </SearchBarButton>
+              </Button>
             </Order>
           </SearchBarMain>
 
@@ -185,7 +185,7 @@ const SearchBar = () => {
                       checked={dietsState[diet] || false}
                       onChange={handleChange}
                     />
-                    {diet.charAt(0).toUpperCase() + diet.slice(1)}
+                    {diet}
                   </CheckboxLabel>
                 ))}
               </CheckboxContainer>

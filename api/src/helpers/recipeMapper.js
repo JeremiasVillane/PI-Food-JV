@@ -37,7 +37,7 @@ module.exports = (recipes, mode) => {
       // Añado a dietsFormatter() la propiedad vegetarian
       // como segundo parámetro:
       diets: dietsFormatter(recipe.diets, recipe.vegetarian),
-      source: recipe.source === "db" ? recipe.source : "api", // API o BDD
+      source: recipe.source ? "db" : "api", // API o BDD
     };
 
     includeSummary && (outputRecipe.summary = summary(recipe.summary));

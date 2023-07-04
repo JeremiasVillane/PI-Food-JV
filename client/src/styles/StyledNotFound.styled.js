@@ -19,4 +19,10 @@ export const NotFoundContainer = styled.div`
     font-weight: bold;
     color: #263a29;
   }
+
+  button {
+    margin-top: 33px;
+    height: 3em;
+    width: 9em;
+  }
 `

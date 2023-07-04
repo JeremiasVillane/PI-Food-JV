@@ -7,7 +7,7 @@ export const NavbarContainer = styled.nav`
   z-index: 100;
   width: 100%;
   height: 80px;
-  background-color: #263A29;
+  background-color: #263a29;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -16,7 +16,7 @@ export const NavbarContainer = styled.nav`
   @media (min-width: 700px) {
     height: 80px;
   }
-  
+
   &[scrolled="true"] {
     height: 66px;
   }
@@ -26,6 +26,10 @@ export const NavbarContainer = styled.nav`
     justify-content: start;
   }
 
+  &[extend-searchbar="true"] {
+    height: 100vh;
+    justify-content: start;
+  }
 `;
 
 export const LeftContainer = styled.div`
@@ -38,6 +42,7 @@ export const LeftContainer = styled.div`
 export const RightContainer = styled.div`
   flex: 30%;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   padding-right: 50px;
 `;
@@ -93,8 +98,16 @@ export const OpenLinksButton = styled.button`
   font-size: 45px;
   cursor: pointer;
 
-  @media (min-width: 700px) {
-    display: none;
+  &[name="extendNavbar"] {
+    @media (min-width: 700px) {
+      display: none;
+    }
+  }
+
+  &[name="extendSearchbar"] {
+    @media (min-width: 1024px) {
+      display: none;
+    }
   }
 `;
 

@@ -10,7 +10,6 @@ export const LandingWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin: 33px;
-  margin-bottom: 200px;
 
   h1 {
     color: #fff;

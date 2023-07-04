@@ -1,9 +1,9 @@
 import styled, { css } from "styled-components";
 
-const lightblueColor = "lightblue";
 const primaryColor = "#263a29";
 const errorColor = "#db3820";
 const successColor = "#57b756";
+const lightColor = "lightblue";
 const hoverColor = "#416450";
 const disabledColor = "lightgray";
 
@@ -40,7 +40,7 @@ const successButtonStyles = css`
 `;
 
 export const Button = styled.button`
-  background-color: ${lightblueColor};
+  background-color: ${lightColor};
   color: ${primaryColor};
   padding: 5px 10px;
   border-radius: 5px;

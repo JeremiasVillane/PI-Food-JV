@@ -5,6 +5,14 @@ export const DetailContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+
+  button {
+    &[name="back-home"] {
+      @media (min-width: 700px) {
+        display: none;
+      }
+    }
+  }
 `;
 
 export const DetailInfo = styled.div`
@@ -101,7 +109,7 @@ export const DetailDiets = styled.div`
   justify-content: center;
   gap: 8px;
   margin-bottom: 16px;
-  
+
   @media (max-width: 500px) {
     flex-direction: column;
   }

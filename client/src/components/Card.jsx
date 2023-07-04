@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
-import { deleteRecipe, filtering } from "../redux/actions";
+import { deleteRecipe } from "../redux/actions";
 import {
   Frame,
   Recipe,
@@ -15,26 +14,11 @@ import {
 
 const Card = ({ id, title, image, healthScore, diets }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
   const [showTags, setShowTags] = useState(false);
-
-  const handlefilter = (event) => {
-    const { textContent } = event.target;
-    const filters = {
-      search: "",
-      source: "",
-      diets: { ...diets, [textContent]: true },
-    };
-    dispatch(filtering(filters));
-    if (pathname !== "/home") {
-      navigate("/home");
-    }
-  };
 
   const handleDelete = () => {
     dispatch(deleteRecipe(id));
-  }
+  };
 
   const handleMouseEnter = () => setShowTags(true);
   const handleMouseLeave = () => setShowTags(false);
@@ -63,11 +47,7 @@ const Card = ({ id, title, image, healthScore, diets }) => {
         </p>
         <RecipeDiets data-showtags={showTags.toString()}>
           {diets &&
-            diets.map((diet, index) => (
-              <button key={index} onClick={handlefilter}>
-                {diet}
-              </button>
-            ))}
+            diets.map((diet, index) => <button key={index}>{diet}</button>)}
         </RecipeDiets>
       </RecipeInfo>
     </Recipe>

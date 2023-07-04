@@ -80,32 +80,6 @@ export const FormTextarea = styled.textarea`
   }
 `;
 
-export const FormButton = styled.button`
-  background-color: lightblue;
-  color: #263a29;
-  font-weight: bold;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #416450;
-    color: white;
-  }
-
-  &:active {
-    background: gray;
-    color: #f0f0f0;
-  }
-
-  &:disabled {
-    background-color: lightgray;
-    cursor: not-allowed;
-  }
-`;
-
 export const FormStepList = styled.ol`
   margin-left: 20px;
   padding: 0;
@@ -143,6 +117,7 @@ export const FormCheckboxContainer = styled.div`
 `;
 
 export const FormCheckboxLabel = styled.label`
+  text-transform: capitalize;
   font-size: 16px;
   color: #263a29;
 `;
