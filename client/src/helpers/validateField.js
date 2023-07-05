@@ -1,9 +1,9 @@
 const validateField = (input) => {
-  const { title, summary, image } = input;
+  const { title, summary, image, diets } = input;
   let errors = {};
   const titleRegex = /\d+/;
   const summaryRegex =
-  /^(?=.*\s)(?=.*[a-zA-Z])(?!.*([a-zA-Z])\1{4})(?!.*\d{6,})(?!.*\b(\d)\2{6,}\b)[\s\S]+$/;
+    /^(?=.*\s)(?=.*[a-zA-Z])(?!.*([a-zA-Z])\1{4})(?!.*\d{6,})(?!.*\b(\d)\2{6,}\b)[\s\S]+$/;
   const imageRegex = /^(https?:\/\/)?(?:www\.)?\S+\.(?:jpg|jpeg|png|gif)$/i;
 
   // Título
@@ -24,7 +24,13 @@ const validateField = (input) => {
   if (image.length && !imageRegex.test(image))
     errors.image = "It must be a valid image url";
 
+  // Dietas
+  const selectedDiets = Object.values(diets);
+  if (selectedDiets.length === 0)
+    errors.diets = "Please select at least one diet";
+
   return errors;
 };
+
 
 export default validateField;

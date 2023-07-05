@@ -41,13 +41,11 @@ const { Recipe, Diet } = sequelize.models;
 
 // Aca vendrian las relaciones
 Recipe.belongsToMany(Diet, {
-  through: "recipes-diets",
-  as: "diets",
+  through: "recipes_diets",
   timestamps: false,
 });
 Diet.belongsToMany(Recipe, {
-  through: "recipes-diets",
-  as: "recipes",
+  through: "recipes_diets",
   timestamps: false,
 });
 

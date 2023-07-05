@@ -41,7 +41,7 @@ const Form = () => {
     healthScore: 50,
     image: "",
   });
-  const [errors, setErrors] = useState({ title: "", summary: "" });
+  const [errors, setErrors] = useState({ title: "", summary: "", diets: "" });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -67,32 +67,35 @@ const Form = () => {
 
   const handleChange = (event) => {
     const { name, value, checked } = event.target;
-    if (["title", "summary", "healthScore", "image"].includes(name)) {
-      setRecipeData({
-        ...recipeData,
-        [name]: value,
-      });
-      setErrors(
-        validateField({
-          ...recipeData,
+  
+    setRecipeData((prevRecipeData) => {
+      let updatedRecipeData = { ...prevRecipeData };
+  
+      if (["title", "summary", "healthScore", "image"].includes(name)) {
+        updatedRecipeData = {
+          ...prevRecipeData,
           [name]: value,
-        })
-      );
-    } else {
-      setRecipeData((prevRecipeData) => {
+        };
+      } else {
         const updatedDiets = { ...prevRecipeData.diets };
         if (checked) {
           updatedDiets[value] = true;
         } else {
           delete updatedDiets[value];
         }
-        return {
+        updatedRecipeData = {
           ...prevRecipeData,
           diets: updatedDiets,
         };
-      });
-    }
+      }
+  
+      const updatedErrors = validateField(updatedRecipeData);
+      setErrors(updatedErrors);
+  
+      return updatedRecipeData;
+    });
   };
+  
 
   const handleSteps = (event, index) => {
     const { value } = event.target;
@@ -217,6 +220,8 @@ const Form = () => {
                 </FormCheckboxContainer>
               ))}
             </div>
+            <br />
+            {errors.diets && <ErrorBubble>{errors.diets}</ErrorBubble>}
           </FormField>
           <FormField>
             <FormLabel>

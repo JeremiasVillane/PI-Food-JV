@@ -8,7 +8,7 @@ module.exports = async (title, image, summary, healthScore, steps, diets) => {
     healthScore,
     steps,
   });
-  image.length && (recipe.image = image);
+  if (image && image.length) recipe.image = image;
 
   // Busco la diet si ya existe o creo una nueva si no existe:
   // findOrCreate() devuelve un array de tuplas que contiene un objeto
