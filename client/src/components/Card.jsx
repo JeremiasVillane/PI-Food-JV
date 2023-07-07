@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteRecipe } from "../redux/actions";
+import { useNavigate } from "react-router-dom";
+import { deleteRecipe, getRecipeDetail } from "../redux/actions";
 import {
   Frame,
   Recipe,
@@ -10,14 +11,21 @@ import {
   HealthScore,
   StyledLink,
   Arrow,
+  DeleteButton,
+  EditButton,
 } from "../styles/StyledCard.styled.js";
 
 const Card = ({ id, title, image, healthScore, diets }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showTags, setShowTags] = useState(false);
 
   const handleDelete = () => {
     dispatch(deleteRecipe(id));
+  };
+
+  const handleEdit = () => {
+    dispatch(getRecipeDetail(id, "edit")).then(() => navigate("/new"));
   };
 
   const handleMouseEnter = () => setShowTags(true);
@@ -32,7 +40,10 @@ const Card = ({ id, title, image, healthScore, diets }) => {
     >
       <Frame>
         <img src={image} alt={title} />
-        {!isFinite(id) && <button onClick={handleDelete}>&#10005;</button>}
+        {!isFinite(id) && (
+          <DeleteButton onClick={handleDelete}>&#10005;</DeleteButton>
+        )}
+        {!isFinite(id) && <EditButton onClick={handleEdit}>&#9998;</EditButton>}
         <HealthScore>{healthScore}</HealthScore>
       </Frame>
       <RecipeInfo>

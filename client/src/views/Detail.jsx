@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { Loader } from "../components";
-import { getAllRecipes, getDiets, getRecipeDetail } from "../redux/actions";
+import { getAllRecipes, getDiets, getRecipeDetail, resetDetail } from "../redux/actions";
 import { Button } from "../styles/common/Button";
 import {
   DetailContainer,
@@ -40,7 +40,11 @@ const Detail = () => {
 
   useEffect(() => {
     dispatch(getRecipeDetail(id));
-  }, [dispatch]);
+  
+    return () => {
+      dispatch(resetDetail());
+    };
+  }, [dispatch, id]);
 
   return (
     <>

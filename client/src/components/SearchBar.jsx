@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { changePage, filtering, resetFilters, sorting } from "../redux/actions";
 import { Button } from "../styles/common/Button";
 import {
@@ -24,7 +24,6 @@ import {
 
 const SearchBar = ({extendSearchbar}) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const diets = useSelector((state) => state.recipes.diets);
@@ -51,7 +50,7 @@ const SearchBar = ({extendSearchbar}) => {
           if (order) dispatch(sorting(order));
         });
     }
-  }, [dispatch, search, source, dietsState, order, pathname, navigate]);
+  }, [dispatch, search, source, dietsState, order, pathname]);
 
   const handleChange = (event) => {
     const { name, value, checked } = event.target;

@@ -10,6 +10,8 @@ import {
   RESET_FILTERS,
   SORTING,
   SET_ALERT,
+  EDIT_RECIPE,
+  RESET_EDIT,
 } from "./action-types";
 import { setLoading } from "./uiActions";
 
@@ -48,14 +50,17 @@ export const getDiets = () => {
   };
 };
 
-export const getRecipeDetail = (id) => {
+export const getRecipeDetail = (id, mode) => {
   return async (dispatch) => {
     try {
       dispatch(setLoading(true));
       const {
         data: [recipe],
       } = await axios(`/recipes/${id}`);
-      dispatch({ type: GET_RECIPE_DETAIL, payload: recipe });
+
+      mode === "edit"
+      ? dispatch({ type: EDIT_RECIPE, payload: recipe })
+      : dispatch({ type: GET_RECIPE_DETAIL, payload: recipe });
     } catch (error) {
       const errorMessage =
         error.response?.data?.error;
@@ -103,12 +108,18 @@ export const newRecipe = (recipeData) => {
         (dietName) => recipeData.diets[dietName]
       );
       recipeData.diets = dietNames;
-
-      const {
-        data: [createdRecipe],
-      } = await axios.post("/recipes", recipeData);
-
-      dispatch({ type: NEW_RECIPE, payload: createdRecipe });
+      
+      if (recipeData.id) {
+        const {
+          data: [editedRecipe],
+        } = await axios.put(`/recipes/${recipeData.id}`, recipeData);
+        dispatch({ type: NEW_RECIPE, payload: editedRecipe });
+      } else {
+        const {
+          data: [createdRecipe],
+        } = await axios.post("/recipes", recipeData);
+        dispatch({ type: NEW_RECIPE, payload: createdRecipe });
+      }
     } catch (error) {
       const errorMessage =
         error.response?.data?.error;
@@ -116,6 +127,12 @@ export const newRecipe = (recipeData) => {
     } finally {
       dispatch(setLoading(false));
     }
+  };
+};
+
+export const resetEdit = () => {
+  return {
+    type: RESET_EDIT,
   };
 };
 

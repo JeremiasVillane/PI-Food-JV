@@ -50,7 +50,9 @@ export const Frame = styled.div`
     max-height: 222px;
   }
 
-  button {
+  `;
+
+  export const DeleteButton = styled.button`
     transition: 0.15s all ease-in-out;
     position: absolute;
     top: 10px;
@@ -77,8 +79,36 @@ export const Frame = styled.div`
       background-color: #db3820;
       transform: scale(1);
     }
-  }
-`;
+  `
+
+  export const EditButton = styled.button`
+    transition: 0.15s all ease-in-out;
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    width: 27px;
+    height: 27px;
+    border: none;
+    border-radius: 50%;
+    background-color: orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darkorange;
+      transform: scale(1.05)
+    }
+
+    &:active {
+      background-color: #db3820;
+      transform: scale(1);
+    }
+  `
 
 export const HealthScore = styled.div`
   position: absolute;

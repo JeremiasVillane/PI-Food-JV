@@ -2,13 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import validateField from "../helpers/validateField";
-import {
-  getAllRecipes,
-  getDiets,
-  newRecipe,
-  resetDetail,
-  setAlert,
-} from "../redux/actions";
+import { getAllRecipes, getDiets, newRecipe, resetEdit, setAlert } from "../redux/actions";
 import { Button } from "../styles/common/Button";
 import {
   FormContainer,
@@ -29,9 +23,9 @@ import {
 const Form = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const recipes = useSelector((state) => state.recipes.recipes);
-  const diets = useSelector((state) => state.recipes.diets);
-  const detail = useSelector((state) => state.recipes.detail);
+  const { recipes, diets, detail, edit } = useSelector(
+    (state) => state.recipes
+  );
   const [isRecipeCreated, setIsRecipeCreated] = useState(false);
   const [recipeData, setRecipeData] = useState({
     title: "",
@@ -45,10 +39,24 @@ const Form = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (edit.id) {
+      let dietsToEdit = {};
+      edit.diets.map((diet) => (dietsToEdit[diet] = true));
+      setRecipeData({
+        title: edit.title,
+        summary: edit.summary,
+        steps: edit.steps,
+        diets: dietsToEdit,
+        healthScore: edit.healthScore,
+        image: edit.image,
+      });
+    }
   }, []);
 
-  useEffect(() => {
-    dispatch(resetDetail());
+  useEffect(() => {  
+    return () => {
+      dispatch(resetEdit());
+    };
   }, [dispatch]);
 
   useEffect(() => {
@@ -58,19 +66,22 @@ const Form = () => {
 
   useEffect(() => {
     if (isRecipeCreated) {
-      if (detail.id) {
+      if (edit.id) {
+        dispatch(setAlert({ success: "Recipe successfully edited" }));
+        navigate(`/detail/${edit.id}`);
+      } else if (detail.id) {
         dispatch(setAlert({ success: "Recipe successfully created" }));
         navigate(`/detail/${detail.id}`);
-      } else return;
+      }
     }
-  }, [isRecipeCreated, navigate, detail.id]);
+  }, [isRecipeCreated, navigate, detail.id, edit.id]);
 
   const handleChange = (event) => {
     const { name, value, checked } = event.target;
-  
+
     setRecipeData((prevRecipeData) => {
       let updatedRecipeData = { ...prevRecipeData };
-  
+
       if (["title", "summary", "healthScore", "image"].includes(name)) {
         updatedRecipeData = {
           ...prevRecipeData,
@@ -88,14 +99,13 @@ const Form = () => {
           diets: updatedDiets,
         };
       }
-  
+
       const updatedErrors = validateField(updatedRecipeData);
       setErrors(updatedErrors);
-  
+
       return updatedRecipeData;
     });
   };
-  
 
   const handleSteps = (event, index) => {
     const { value } = event.target;
@@ -128,8 +138,11 @@ const Form = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const recipeToProcess = edit.id
+      ? newRecipe({ ...recipeData, id: edit.id })
+      : newRecipe(recipeData);
 
-    await dispatch(newRecipe(recipeData)).then(() => {
+    await dispatch(recipeToProcess).then(() => {
       setIsRecipeCreated(true);
       setRecipeData({
         title: "",
@@ -214,9 +227,7 @@ const Form = () => {
                     checked={recipeData.diets[diet] || false}
                     onChange={handleChange}
                   />
-                  <FormCheckboxLabel>
-                    {diet}
-                  </FormCheckboxLabel>
+                  <FormCheckboxLabel>{diet}</FormCheckboxLabel>
                 </FormCheckboxContainer>
               ))}
             </div>

@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllRecipes, getDiets, resetDetail } from "../redux/actions";
-import { Cards } from "../components";
-import Loader from "../components/Loader";
+import { getAllRecipes, getDiets } from "../redux/actions";
+import { Cards, Loader } from "../components";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -24,10 +23,6 @@ const Home = () => {
     dispatch(getAllRecipes());
     !diets.length &&
     dispatch(getDiets())
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(resetDetail());
   }, [dispatch]);
 
   return (

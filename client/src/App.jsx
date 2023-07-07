@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Footer, NavBar } from "./components";
-import Modal from "./components/Modal";
+import { Footer, Modal, NavBar } from "./components";
 import GlobalStyles from "./styles/GlobalStyles";
 import { About, Detail, Form, Home, Landing, NotFound } from "./views";
 import { setAlert } from "./redux/actions";

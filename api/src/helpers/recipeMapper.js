@@ -31,6 +31,7 @@ module.exports = (recipes, mode) => {
 
     const outputRecipe = {
       id: recipe.id,
+      // readyInMinutes: recipe.readyInMinutes,
       title: recipe.title,
       image: recipe.image,
       healthScore: recipe.healthScore,

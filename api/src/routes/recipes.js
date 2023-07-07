@@ -5,12 +5,15 @@ const {
   getRecipeByIdHandler,
   postRecipeHandler,
   deleteRecipeHandler,
+  putRecipeHandler,
 } = require("../handlers");
 
 recipesRouter.get("/", getRecipesHandler);
 recipesRouter.get("/:idRecipe", validateGet, getRecipeByIdHandler);
 
 recipesRouter.post("/", validatePost, postRecipeHandler);
+
+recipesRouter.put("/:idRecipe", putRecipeHandler);
 
 recipesRouter.delete("/:idRecipe", deleteRecipeHandler);
 

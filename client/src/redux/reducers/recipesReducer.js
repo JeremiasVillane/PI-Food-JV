@@ -8,13 +8,16 @@ import {
   FILTERING,
   RESET_FILTERS,
   SORTING,
+  EDIT_RECIPE,
+  RESET_EDIT,
 } from "../actions/action-types";
 
 const initialState = {
   recipes: [],
   filteredRecipes: [],
   unorderedRecipes: [],
-  detail: [],
+  detail: {},
+  edit: {},
   diets: [],
 };
 
@@ -30,12 +33,22 @@ const recipesReducer = (state = initialState, { type, payload }) => {
     case GET_RECIPE_DETAIL:
       return { ...state, detail: payload };
     case RESET_DETAIL:
-      return { ...state, detail: [] };
+      return { ...state, detail: {} };
     case NEW_RECIPE:
       return {
         ...state,
         detail: payload,
       };
+    case EDIT_RECIPE:
+      return {
+        ...state,
+        edit: payload,
+      }
+    case RESET_EDIT:
+      return {
+        ...state,
+        edit: {},
+      }
     case DELETE_RECIPE:
       const updatedRecipes = state.recipes.filter(
         (recipe) => recipe.id !== payload
