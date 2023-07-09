@@ -8,26 +8,20 @@ export const SearchBarContainer = styled.div`
   align-items: center;
 
   @media (max-width: 1024px) {
-    display: none;
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+      background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+    margin-top: 120%;
+    margin-right: -44px;
   }
 
-  &[extend-searchbar="true"] {
-    margin-top: 220%;
-    flex: 70%;
+  &[is-search-open="true"] {
+    transform: translateX(0%);
     display: flex;
-    flex-direction:column;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding-left: 5%;
-    margin-left:-100px;
-
-    @media (max-width: 1024px) {
-      margin-top: 150%;
-    }
-    @media (max-width: 900px) {
-      margin-top: 220%;
-    }
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    z-index: 100;
   }
 `;
 
@@ -35,24 +29,12 @@ export const SearchBarMain = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-right: 10px;
 
   @media (max-width: 1024px) {
-    width: 10px;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     line-height: 66px;
     flex-wrap: wrap;
-    margin:-100px 0;
-  }
-  
-  @media (max-width: 700px) {
-    width: 10px;
-    justify-content: center;
-    align-items: center;
-    line-height: 66px;
-    flex-wrap: wrap;
-    margin:0;
   }
 `;
 
@@ -60,10 +42,6 @@ export const Search = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  @media (max-width: 1024px) {
-    margin-left: 90px;
-  }
 `;
 
 export const SearchInput = styled.input`
@@ -126,7 +104,6 @@ export const AdvancedSearchContainer = styled.div`
 
   @media (max-width: 1024px) {
     flex-direction: column;
-    margin-top: 120px;
   }
 `;
 
@@ -141,10 +118,6 @@ export const AdvancedSearchLink = styled.span`
   cursor: pointer;
   margin-left: 10px;
   color: white;
-
-  @media (max-width: 1024px) {
-    margin-left: -55px;
-  }
 `;
 
 export const AdvancedOptionsContainer = styled.div`
@@ -157,21 +130,15 @@ export const AdvancedOptionsContainer = styled.div`
   padding: 10px;
   transform-origin: top right;
   transform: scale(0);
-  /* display: none; */
   transition: 0.15s all ease-in-out;
 
   @media (max-width: 1024px) {
-    top: 330px;
-  }
-  @media (max-width: 900px) {
-    top: 342px;
-  }
-  @media (max-width: 600px) {
-    top: 300px;
+    border: none;
+    top: 100px;
+    width: 333px;
   }
 
   &[show-advanced-options="true"] {
-    /* display: block; */
     transform-origin: top right;
     transform: scale(1);
   }
@@ -179,6 +146,12 @@ export const AdvancedOptionsContainer = styled.div`
   &[scrolled="true"] {
     top: 66px;
     border-top: 2px solid #41644a;
+
+    @media (max-width: 1024px) {
+    border: none;
+    top: 100px;
+    width: 250px;
+  }
   }
 `;
 
@@ -188,9 +161,7 @@ export const SourceContainer = styled.div`
   align-items: center;
 `;
 
-export const SourceSelect = styled.select`
-  /* margin-bottom: 10px; */
-`;
+export const SourceSelect = styled.select``;
 
 export const CheckboxContainer = styled.div`
   display: flex;
@@ -203,7 +174,7 @@ export const CheckboxLabel = styled.label`
   font-size: small;
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  margin: 6px;
 `;
 
 export const CheckboxInput = styled.input`

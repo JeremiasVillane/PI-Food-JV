@@ -15,9 +15,16 @@ import {
 
 const NavBar = () => {
   const { pathname } = useLocation();
-  const [extendNavbar, setExtendNavbar] = useState(false);
-  const [extendSearchbar, setExtendSearchbar] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isSearchOpen, setSearchOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+  const handleSearchToggle = () => {
+    setSearchOpen(!isSearchOpen);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,20 +39,11 @@ const NavBar = () => {
     };
   }, []);
 
-  const handleClick = (event) => {
-    const { name } = event.target;
-    name === "extendNavbar"
-      ? setExtendNavbar((curr) => !curr)
-      : setExtendSearchbar((curr) => !curr);
-  };
-
   return (
     <>
       {(["/home", "/new", "/about"].includes(pathname) ||
         pathname.startsWith("/detail/")) && (
         <NavbarContainer
-          extend-navbar={extendNavbar.toString()}
-          extend-searchbar={extendSearchbar.toString()}
           scrolled={scrolled.toString()}
         >
           <NavbarInnerContainer>
@@ -72,27 +70,59 @@ const NavBar = () => {
                 >
                   About
                 </NavbarLink>
-                <OpenLinksButton name="extendNavbar" onClick={handleClick}>
-                  {extendNavbar ? <>&#10005;</> : <> &#8801;</>}
-                </OpenLinksButton>
               </NavbarLinkContainer>
+              <NavbarExtendedContainer>
+                <div id="menuToggle" onClick={handleMenuToggle}>
+                  <input type="checkbox" checked={isMenuOpen} readOnly />
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <ul id="menu">
+                    <li>
+                      <NavbarLinkExtended
+                        to="/home"
+                        scrolled={scrolled.toString()}
+                      >
+                        Home
+                      </NavbarLinkExtended>
+                    </li>
+                    <li>
+                      <NavbarLinkExtended
+                        to="/new"
+                        scrolled={scrolled.toString()}
+                      >
+                        New Recipe
+                      </NavbarLinkExtended>
+                    </li>
+                    <li>
+                      <NavbarLinkExtended
+                        to="/about"
+                        scrolled={scrolled.toString()}
+                      >
+                        About
+                      </NavbarLinkExtended>
+                    </li>
+                  </ul>
+                </div>
+              </NavbarExtendedContainer>
             </LeftContainer>
+
             <RightContainer>
-              <SearchBar extendSearchbar={extendSearchbar} />
-              {pathname === "/home" && (
-                <OpenLinksButton name="extendSearchbar" onClick={handleClick}>
-                  {extendSearchbar ? <>&#10005;</> : <> &#8981;</>}
-                </OpenLinksButton>
-              )}
+              <SearchBar isSearchOpen={isSearchOpen} />
+
+              <NavbarExtendedContainer>
+                <div id="searchToggle" onClick={handleSearchToggle}>
+                  <input type="checkbox" checked={isSearchOpen} readOnly />
+                  {pathname === "/home" && (
+                    <OpenLinksButton name="extendSearchbar">
+                      {isSearchOpen ? <>&#10005;</> : <> &#8981;</>}
+                    </OpenLinksButton>
+                  )}
+                  <ul id="search" />
+                </div>
+              </NavbarExtendedContainer>
             </RightContainer>
           </NavbarInnerContainer>
-          {extendNavbar && (
-            <NavbarExtendedContainer>
-              <NavbarLinkExtended to="/home"> Home</NavbarLinkExtended>
-              <NavbarLinkExtended to="/new"> New Recipe</NavbarLinkExtended>
-              <NavbarLinkExtended to="/about"> About</NavbarLinkExtended>
-            </NavbarExtendedContainer>
-          )}
         </NavbarContainer>
       )}
     </>

@@ -22,7 +22,7 @@ import {
   Arrow,
 } from "../styles/StyledSearchBar.styled";
 
-const SearchBar = ({extendSearchbar}) => {
+const SearchBar = ({isSearchOpen}) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [scrolled, setScrolled] = useState(false);
@@ -119,7 +119,7 @@ const SearchBar = ({extendSearchbar}) => {
   return (
     <>
       {pathname === "/home" && (
-        <SearchBarContainer extend-searchbar={extendSearchbar.toString()}>
+        <SearchBarContainer is-search-open={isSearchOpen.toString()}>
           <SearchBarMain>
             <Search>
               <SearchInput
