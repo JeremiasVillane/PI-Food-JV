@@ -4,7 +4,7 @@ const GlobalStyles = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    background-image: url("../src/assets/background.jpg");
+    background-image: url("images/background.jpg");
     min-height: 100%;
     background-repeat: repeat;
     /* background-attachment: fixed; */
