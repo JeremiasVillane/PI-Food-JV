@@ -12,7 +12,7 @@ const store = configureStore({
     });
     return middleware.concat(thunk);
   },
-  devTools: process.env.NODE_ENV !== "production",
+  devTools: import.meta.env.VITE_NODE_ENV !== "production",
 });
 
 export default store;
