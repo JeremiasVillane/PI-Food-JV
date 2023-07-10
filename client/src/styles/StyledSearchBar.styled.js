@@ -8,15 +8,16 @@ export const SearchBarContainer = styled.div`
   align-items: center;
 
   @media (max-width: 1024px) {
-    transform: translateX(100%);
+    /* transform: translateX(100%);
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
-      background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+      background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease; */
+      display: none;
     margin-top: 120%;
     margin-right: -44px;
   }
 
   &[is-search-open="true"] {
-    transform: translateX(0%);
+    /* transform: translateX(0%); */
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -134,7 +135,8 @@ export const AdvancedOptionsContainer = styled.div`
 
   @media (max-width: 1024px) {
     border: none;
-    top: 100px;
+    top: 255px;
+    right: 33px;
     width: 333px;
   }
 

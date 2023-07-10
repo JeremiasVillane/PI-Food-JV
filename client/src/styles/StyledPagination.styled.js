@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
 export const StyledPagination = styled.nav`
+  span {
+    @media (max-width: 700px) {
+      display:none;
+    }
+  }
+
   button {
     display: inline-block;
     padding: 9px 12px;

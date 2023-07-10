@@ -251,16 +251,18 @@ export const NavbarExtendedContainer = styled.div`
     padding-top: 333px;
     background: #263a29;
     list-style-type: none;
-    -webkit-font-smoothing: antialiased;
+    /* -webkit-font-smoothing: antialiased;
     transform-origin: 0% 0%;
-    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1); */
 
     @media (max-width: 1024px) {
-      transform: translate(100%, 0);
+      display:none;
+      /* transform: translate(100%, 0); */
     }
   }
 
   #searchToggle input:checked ~ #search {
     transform: none;
+    display:flex;
   }
 `;

@@ -13,7 +13,7 @@ export const LandingWrapper = styled.div`
 
   h1 {
     color: #fff;
-    font-size: 60px;
+    font-size: 2.5em;
     white-space: nowrap;
     margin: 44px 0 1%;
     text-shadow: 2px 0 #416450, -2px 0 #416450, 0 2px #416450, 0 -2px #416450, 1px 1px #416450, -1px -1px #416450, 1px -1px  #416450, -1px 1px #416450;

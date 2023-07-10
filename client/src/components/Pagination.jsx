@@ -38,7 +38,7 @@ const Pagination = () => {
       >
         &lt; Prev
       </PaginationButton>
-      {generatePageNumbers()}
+      <span>{generatePageNumbers()}</span>
       <PaginationButton
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages - 1}
