@@ -16,7 +16,7 @@ const Landing = () => {
   return (
     <LandingWrapper>
       <h1>Welcome to...</h1>
-      <img src="../src/assets/foodworld-logo.png" alt="Food World" />
+      <img src="/src/assets/foodworld-logo.png" alt="Food World" />
       <Link to="/home">
         <Button kind="primary">ENTER</Button>
       </Link>
