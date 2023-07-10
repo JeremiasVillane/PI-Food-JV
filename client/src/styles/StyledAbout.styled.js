@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const AboutImgWrapper = styled.div`
-  background-image: url("../src/assets/about-bg.jpg");
+  background-image: url("images/about-bg.jpg");
   background-position: center;
   background-attachment: fixed;
   background-size: cover;

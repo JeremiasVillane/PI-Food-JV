@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const LandingWrapper = styled.div`
-  background-image: url("../src/assets/landing.jpg");
+  background-image: url("images/landing.jpg");
   background-position: center;
   background-attachment: fixed;
   background-size: cover;
