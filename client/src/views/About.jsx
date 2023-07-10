@@ -23,7 +23,7 @@ const About = () => {
   return (
     <>
       <AboutImgWrapper>
-        <img src="/src/assets/foodworld-logo.png" alt="Food World" />
+        <img src="/images/foodworld-logo.png" alt="Food World" />
       </AboutImgWrapper>
       <AboutText>
         <main>
@@ -39,20 +39,20 @@ const About = () => {
         </main>
         <Arrows
           onClick={handleScroll}
-          src="/src/assets/arrows-down.gif"
+          src="/images/arrows-down.gif"
           alt="arrows"
         />
         <AboutTitle>Technologies used:</AboutTitle>
         <AboutList>
           <figure>
             <li>
-              <img src="/src/assets/logo-react.png" alt="React" />
+              <img src="/images/logo-react.png" alt="React" />
               <figcaption>React</figcaption>
             </li>
           </figure>
           <figure>
             <li>
-              <img src="/src/assets/logo-redux.png" alt="Redux" />
+              <img src="/images/logo-redux.png" alt="Redux" />
               <figcaption>Redux</figcaption>
             </li>
           </figure>
@@ -60,7 +60,7 @@ const About = () => {
             <li>
               <img
                 style={{ padding: "21px 0" }}
-                src="/src/assets/logo-node.png"
+                src="/images/logo-node.png"
                 alt="Node.js"
               />
               <figcaption>Node.js</figcaption>
@@ -68,26 +68,26 @@ const About = () => {
           </figure>
           <figure>
             <li>
-              <img src="/src/assets/logo-sequelize.png" alt="Sequelize" />
+              <img src="/images/logo-sequelize.png" alt="Sequelize" />
               <figcaption>Sequelize</figcaption>
             </li>
           </figure>
           <figure>
             <li>
-              <img src="/src/assets/logo-postgresql.png" alt="PostgreSQL" />
+              <img src="/images/logo-postgresql.png" alt="PostgreSQL" />
               <figcaption>PostgreSQL</figcaption>
             </li>
           </figure>
           <figure>
             <li>
-              <img src="/src/assets/logo-vite.png" alt="Vite" />
+              <img src="/images/logo-vite.png" alt="Vite" />
               <figcaption>Vite</figcaption>
             </li>
           </figure>
           <figure>
             <li>
               <img
-                src="/src/assets/logo-styledcomponents.png"
+                src="/images/logo-styledcomponents.png"
                 alt="Styled Components"
               />
               <figcaption>Styled Components</figcaption>
@@ -101,14 +101,14 @@ const About = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="/src/assets/logo-linkedin.png" alt="LinkedIn" />
+            <img src="/images/logo-linkedin.png" alt="LinkedIn" />
           </a>
           <a
             href="https://github.com/JeremiasVillane"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <img src="/src/assets/logo-github.png" alt="GitHub" />
+            <img src="/images/logo-github.png" alt="GitHub" />
           </a>
         </AboutContactWrapper>
       </AboutText>
