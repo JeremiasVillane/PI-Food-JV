@@ -27,7 +27,7 @@ const About = () => {
       </AboutImgWrapper>
       <AboutText>
         <main>
-          IP (Integrative Project) made by Jeremias Villane for the{" "}
+          IP (Individual Project) made by Jeremias Villane for the{" "}
           <a
             href="https://www.soyhenry.com/"
             target="_blank"
